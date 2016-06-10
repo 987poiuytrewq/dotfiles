@@ -1,0 +1,17 @@
+[user]
+  name = Duncan Williams
+  email = duncan@hubbub.co.uk
+[push]
+  default = current
+[merge]
+	tool = fugitive
+[alias]
+  u = add -u
+  c = commit
+  graph = log --graph --all --pretty=format:'%C(dim normal)%h%C(reset) %C(blue)%an%Creset %s %C(yellow)%cr %C(auto)%d%Creset' --abbrev-commit
+[pull]
+  default = simple
+[core]
+  excludesfile = /home/duncan/.gitignore_global
+[mergetool "fugitive"]
+	cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
