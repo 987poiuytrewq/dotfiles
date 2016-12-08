@@ -4,7 +4,7 @@
 [push]
   default = current
 [merge]
-	tool = fugitive
+  tool = fugitive
 [alias]
   u = add -u
   c = commit
