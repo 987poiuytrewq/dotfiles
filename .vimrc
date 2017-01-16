@@ -25,7 +25,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-eunuch'
 Plug 'moll/vim-bbye'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'justinmk/vim-dirvish'
 
 "interface
 Plug 'benekastah/neomake'
@@ -44,6 +43,7 @@ Plug 'Shougo/neoyank.vim'
 Plug 'lambdalisue/unite-grep-vcs'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'tsukkee/unite-tag'
+Plug '~/projects/personal/ungite.vim'
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -60,6 +60,9 @@ Plug 'sheerun/vim-polyglot'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'jamessan/vim-gnupg'
+Plug 'hdima/python-syntax'
+Plug 'lepture/vim-jinja'
+Plug 'mitsuhiko/vim-rst'
 
 "test
 Plug 'kassio/neoterm'
@@ -101,16 +104,17 @@ colorscheme onedark
 let g:airline_theme = 'lucius'
 highlight! Normal ctermbg=none
 highlight! NonText ctermbg=none
-highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
-highlight! DiffDelete cterm=none ctermfg=52 ctermbg=52
-highlight! DiffText cterm=none ctermfg=none ctermbg=17
+" highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
+" highlight! DiffDelete cterm=none ctermfg=52 ctermbg=52
+" highlight! DiffText cterm=none ctermfg=none ctermbg=17
 highlight! link Search IncSearch
 highlight! link Pmenu StatusLineNC
-highlight! SpellCap cterm=none ctermfg=235 ctermbg=3
+highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,
 highlight! StatusLineNC ctermbg=235
 highlight! VertSplit ctermbg=235
+let python_highlight_builtins = 1
 
 "hl_matchit
 let g:hl_matchit_enable_on_vim_startup = 1
@@ -129,18 +133,21 @@ let g:hl_fold_end_linehl = 'MatchParen'
 set nobackup
 set nowritebackup
 set noswapfile
+autocmd InsertLeave * nested update
 if has_textchanged
-  autocmd TextChanged * nested update
+    autocmd TextChanged * nested update
 endif
 autocmd BufWritePre * StripWhitespace
 
 "indent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
 set autoindent
 set smartindent
 set copyindent
+set textwidth=80
+set wrap
 
 "fold
 highlight! Folded ctermfg=none ctermbg=235
@@ -205,11 +212,11 @@ let g:vim_tags_auto_generate = 1
 autocmd! BufReadPost * Neomake
 autocmd! BufWritePost * Neomake
 let g:neomake_error_sign = {
-      \ 'text': '•',
+      \ 'text': '▲',
       \ 'texthl': 'GitGutterDelete',
       \ }
 let g:neomake_warning_sign = {
-      \ 'text': '•',
+      \ 'text': '▲',
       \ 'texthl': 'GitGutterChange',
       \ }
 
@@ -249,6 +256,8 @@ nnoremap <leader>cc :<C-u>Unite -no-split -smartcase -buffer-name=quickfix quick
 nnoremap <leader>cl :<C-u>Unite -no-split -smartcase -buffer-name=locations location_list<CR>
 nnoremap <leader>gg :<C-u>Unite -no-split -smartcase -buffer-name=grep grep/git<CR>
 nnoremap <leader>gp :<C-u>UniteResume grep<CR>
+nnoremap <leader>gs :<C-u>Unite -no-split -smartcase -buffer-name=git_status ungite/status<CR>
+nnoremap <leader>gb :<C-u>Unite -no-split -smartcase -buffer-name=git_branch ungite/branch<CR>
 
 "unite customisation
 function! s:unite_directory_keybindings()
@@ -258,12 +267,16 @@ autocmd FileType unite call s:unite_directory_keybindings()
 autocmd FileType unite setlocal number
 
 "vimfiler
+nnoremap <leader>s :<C-u>VimFilerBufferDir<CR>
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_expand_jump_to_first_child = 0
 let g:vimfiler_tree_leaf_icon = ''
 let g:vimfiler_tree_opened_icon = '▼'
 let g:vimfiler_tree_closed_icon = '▶'
 let g:vimfiler_tree_readonly_icon = ''
+call vimfiler#custom#profile('default', 'context', {
+        \   'safe_mode' : 0
+        \ })
 autocmd FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
 autocmd FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
 
