@@ -74,6 +74,7 @@ Plug 'gosukiwi/vim-atom-dark'
 Plug 'joshdick/onedark.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'guns/xterm-color-table.vim'
+Plug 'chrisbra/Colorizer'
 
 call plug#end()
 
@@ -219,6 +220,7 @@ let g:neomake_warning_sign = {
       \ 'text': '▲',
       \ 'texthl': 'GitGutterChange',
       \ }
+let g:neomake_javascript_enabled_makers = ['eslint']
 
 "airline
 let g:airline_extensions = ['tabline', 'branch', 'unite']

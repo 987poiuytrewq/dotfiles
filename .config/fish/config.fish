@@ -19,16 +19,18 @@ end
 
 function scpcurl -w curl
     if [ -z $TOKEN ]
-        # api.scp/v1/auth/ | jq -r '.data.access_token' | read -gx TOKEN
-        set USER duncan.williams@supercarers.com
         # get -p 'username:' | read USER
-        get -s -p 'password:' | read PASS
+        set USER 'developers+alice_admin@supercarers.com'
+        set PASS alice
+        # set USER duncan.williams@supercarers.com
+        # get -s -p 'password:' | read PASS
         curl -sL \
             -H "Accept: application/json" \
             -H "Content-Type: application/json" \
             -d "{\"username\": \"$USER\", \"password\": \"$PASS\"}" \
             -X POST \
-            https://api.supercarers.com/v1/auth/ | read -z AUTH
+            api.scp/v1/auth/ | read -z AUTH
+            # https://api.supercarers.com/v1/auth/ | read -z AUTH
         echo $AUTH | jq .
         echo $AUTH | jq -r '.data.access_token' | read -gx TOKEN
     end
