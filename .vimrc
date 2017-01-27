@@ -72,6 +72,7 @@ Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
 Plug 'sickill/vim-monokai'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'joshdick/onedark.vim'
+Plug 'rakr/vim-one'
 Plug 'flazz/vim-colorschemes'
 Plug 'guns/xterm-color-table.vim'
 Plug 'chrisbra/Colorizer'
@@ -99,20 +100,24 @@ call camelcasemotion#CreateMotionMappings(',')
 set selection=exclusive
 
 "colors
+if has('termguicolors')
+    " set termguicolors
+endif
 set t_Co=256
 set background=dark
 colorscheme onedark
 let g:airline_theme = 'lucius'
-highlight! Normal ctermbg=none
+highlight! Normal ctermbg=none guibg=none
 highlight! NonText ctermbg=none
-" highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
-" highlight! DiffDelete cterm=none ctermfg=52 ctermbg=52
-" highlight! DiffText cterm=none ctermfg=none ctermbg=17
+highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
+highlight! DiffChange cterm=none ctermfg=none ctermbg=none
+" highlight! DiffDelete cterm=none ctermfg=204 ctermbg=204
+highlight! DiffText cterm=none ctermfg=none ctermbg=17
 highlight! link Search IncSearch
 highlight! link Pmenu StatusLineNC
 highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234
 set hlsearch
-set fillchars=vert:\ ,fold:\ ,
+set fillchars=vert:\ ,fold:\ ,diff:·
 highlight! StatusLineNC ctermbg=235
 highlight! VertSplit ctermbg=235
 let python_highlight_builtins = 1
