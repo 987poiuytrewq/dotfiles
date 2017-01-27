@@ -1,6 +1,6 @@
 [user]
   name = Duncan Williams
-  email = duncan.wlliams@supercarers.com
+  email = duncan.williams@supercarers.com
 [push]
   default = current
 [merge]
@@ -14,4 +14,4 @@
 [core]
   excludesfile = /home/duncan/.gitignore_global
 [mergetool "fugitive"]
-	cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+	cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
