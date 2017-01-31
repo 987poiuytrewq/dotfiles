@@ -331,3 +331,6 @@ if has('nvim')
   command! TestAll :call neoterm#test#run('all')<CR>
   command! TestLast :call neoterm#test#rerun()<CR>
 endif
+
+set exrc
+set secure
