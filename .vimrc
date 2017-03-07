@@ -7,19 +7,23 @@ call plug#begin('~/.vim/plugged')
 "util
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'szw/vim-tags'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'christoomey/vim-titlecase'
 
 "motion
 Plug 'bkad/CamelCaseMotion'
 Plug 'terryma/vim-smooth-scroll'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
 Plug 'vimtaku/hl_matchit.vim'
-Plug '987poiuytrewq/hl_fold.vim'
-Plug 'Raimondi/delimitMate'
-Plug 'junegunn/vim-easy-align'
+
+"insert
+Plug 'tpope/vim-surround'
+Plug 'tomtom/tcomment_vim'
+Plug 'eapache/auto-pairs'
+Plug 'alvan/vim-closetag'
 
 "buffers
 Plug 'tpope/vim-eunuch'
@@ -31,8 +35,8 @@ Plug 'benekastah/neomake'
 if has_ycm
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 endif
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'ap/vim-buftabline'
 
 "unite
 Plug 'Shougo/unite.vim'
@@ -63,6 +67,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'hdima/python-syntax'
 Plug 'lepture/vim-jinja'
 Plug 'mitsuhiko/vim-rst'
+Plug 'saltstack/salt-vim'
 
 "test
 Plug 'kassio/neoterm'
@@ -82,9 +87,11 @@ call plug#end()
 "general
 set number
 set mouse=a
-set clipboard=unnamed,unnamedplus
 set ttyfast
 set ttimeoutlen=0
+
+"clipboard
+set clipboard=unnamed,unnamedplus
 
 "leader
 let mapleader = "\<Space>"
@@ -106,12 +113,11 @@ endif
 set t_Co=256
 set background=dark
 colorscheme onedark
-let g:airline_theme = 'lucius'
 highlight! Normal ctermbg=none guibg=none
 highlight! NonText ctermbg=none
 highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
 highlight! DiffChange cterm=none ctermfg=none ctermbg=none
-" highlight! DiffDelete cterm=none ctermfg=204 ctermbg=204
+highlight! DiffDelete cterm=none ctermfg=204 ctermbg=none
 highlight! DiffText cterm=none ctermfg=none ctermbg=17
 highlight! link Search IncSearch
 highlight! link Pmenu StatusLineNC
@@ -121,6 +127,13 @@ set fillchars=vert:\ ,fold:\ ,diff:·
 highlight! StatusLineNC ctermbg=235
 highlight! VertSplit ctermbg=235
 let python_highlight_builtins = 1
+
+"auto-pairs
+let g:AutoPairsCenterLine = 0
+let g:AutoPairsUseInsertedCount = 1
+
+"close-tag
+let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js"
 
 "hl_matchit
 let g:hl_matchit_enable_on_vim_startup = 1
@@ -143,7 +156,6 @@ autocmd InsertLeave * nested update
 if has_textchanged
     autocmd TextChanged * nested update
 endif
-autocmd BufWritePre * StripWhitespace
 
 "indent
 set tabstop=4
@@ -227,20 +239,51 @@ let g:neomake_warning_sign = {
       \ }
 let g:neomake_javascript_enabled_makers = ['eslint']
 
-"airline
-let g:airline_extensions = ['tabline', 'branch', 'unite']
-let g:airline_powerline_fonts=1
-let g:airline_section_x = ''
-let g:airline_section_y = ''
-let g:airline_section_z = '%{strftime("%H:%M")}'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
+"lightline
+set noshowmode
 set laststatus=2
+let g:lightline = {
+      \ 'active': {
+      \   'left': [
+      \     [ 'mode', 'paste' ],
+      \     [ 'fugitive'],
+      \     [ 'readonly', 'filename' ],
+      \   ],
+      \  'right': [],
+      \ },
+      \ 'inactive': {
+      \   'left': [
+      \     [],
+      \     [],
+      \     [ 'readonly', 'filename' ],
+      \   ],
+      \  'right': [],
+      \ },
+      \ 'component_function': {
+      \   'readonly': 'LightlineReadonly',
+      \   'filename': 'LightlineFilename',
+      \   'fugitive': 'LightlineFugitive',
+      \ },
+      \ }
+function! LightlineReadonly()
+    return &readonly ? '' : ''
+endfunction
+function! LightlineFilename()
+    return &ft == 'unite' ? unite#get_status_string() :
+      \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+      \ @%
+endfunction
+function! LightlineFugitive()
+    if exists('*fugitive#head')
+        let branch = fugitive#head()
+        return branch !=# '' ? ' '.branch : ''
+    endif
+    return ''
+endfunction
+
+"buftabline
+highlight! link BufTabLineActive TabLineSel
+highlight! link BufTabLineCurrent PmenuSel
 
 "unite
 let g:unite_source_history_yank_enable = 1

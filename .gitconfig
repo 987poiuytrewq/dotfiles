@@ -15,3 +15,7 @@
   excludesfile = /home/duncan/.gitignore_global
 [mergetool "fugitive"]
 	cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
+[credential]
+	helper = osxkeychain
+[commit]
+	verbose = true
