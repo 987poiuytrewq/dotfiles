@@ -12,7 +12,7 @@
 [pull]
   default = simple
 [core]
-  excludesfile = /home/duncan/.gitignore_global
+	excludesfile = /Users/duncan/.gitignore_global
 [mergetool "fugitive"]
 	cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
 [credential]

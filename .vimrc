@@ -10,7 +10,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'szw/vim-tags'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'christoomey/vim-titlecase'
 
@@ -22,7 +22,7 @@ Plug 'vimtaku/hl_matchit.vim'
 "insert
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'eapache/auto-pairs'
+" Plug 'eapache/auto-pairs'
 Plug 'alvan/vim-closetag'
 
 "buffers
@@ -164,7 +164,7 @@ set expandtab
 set autoindent
 set smartindent
 set copyindent
-set textwidth=80
+set textwidth=79
 set wrap
 
 "fold
@@ -223,9 +223,6 @@ nmap <leader>cs <Plug>GitGutterStageHunk
 nmap <leader>cr <Plug>GitGutterUndoHunk
 nmap <leader>cp <Plug>GitGutterPreviewHunk
 
-"vim-tags
-let g:vim_tags_auto_generate = 1
-
 "neomake
 autocmd! BufReadPost * Neomake
 autocmd! BufWritePost * Neomake
@@ -243,6 +240,7 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 set noshowmode
 set laststatus=2
 let g:lightline = {
+      \ 'subseparator': { 'left': '', 'right': '' },
       \ 'active': {
       \   'left': [
       \     [ 'mode', 'paste' ],
