@@ -22,8 +22,8 @@ Plug 'vimtaku/hl_matchit.vim'
 "insert
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-" Plug 'eapache/auto-pairs'
-Plug 'alvan/vim-closetag'
+Plug 'Raimondi/delimitMate'
+Plug 'vim-scripts/closetag.vim'
 
 "buffers
 Plug 'tpope/vim-eunuch'
@@ -128,12 +128,12 @@ highlight! StatusLineNC ctermbg=235
 highlight! VertSplit ctermbg=235
 let python_highlight_builtins = 1
 
-"auto-pairs
-let g:AutoPairsCenterLine = 0
-let g:AutoPairsUseInsertedCount = 1
-
 "close-tag
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js"
+
+"delimitMate
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
 
 "hl_matchit
 let g:hl_matchit_enable_on_vim_startup = 1
