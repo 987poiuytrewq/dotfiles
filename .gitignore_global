@@ -3,3 +3,4 @@ tags.lock
 tags.temp
 .uniteignore
 npm-debug.log
+.exrc

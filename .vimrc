@@ -14,6 +14,8 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'christoomey/vim-titlecase'
 
+Plug 'takac/vim-spotifysearch'
+
 "motion
 Plug 'bkad/CamelCaseMotion'
 Plug 'terryma/vim-smooth-scroll'
@@ -40,6 +42,7 @@ Plug 'ap/vim-buftabline'
 
 "unite
 Plug 'Shougo/unite.vim'
+Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimfiler.vim'
 Plug 'Shougo/unite-outline'
 Plug 'Shougo/neomru.vim'
@@ -53,24 +56,33 @@ Plug '~/projects/personal/ungite.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
+"textobj
+Plug 'kana/vim-textobj-user'
+Plug 'beloglazov/vim-textobj-quotes'
+Plug 'sgur/vim-textobj-parameter'
+Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby,eruby' }
+Plug 'bps/vim-textobj-python', {'for': 'python'}
+
 "ruby
 Plug 'tpope/vim-rails', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
-Plug 'kana/vim-textobj-user', { 'for': 'ruby,eruby' }
-Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby,eruby' }
 
 "file types
-Plug 'sheerun/vim-polyglot'
-Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'fleischie/vim-styled-components'
 Plug 'hashivim/vim-terraform'
-Plug 'jamessan/vim-gnupg'
 Plug 'hdima/python-syntax'
+Plug 'jamessan/vim-gnupg'
 Plug 'lepture/vim-jinja'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'mitsuhiko/vim-rst'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'raimon49/requirements.txt.vim'
 Plug 'saltstack/salt-vim'
+Plug 'sheerun/vim-polyglot'
 
 "test
 Plug 'kassio/neoterm'
+Plug 'janko-m/vim-test'
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
 
 "colors
@@ -99,12 +111,18 @@ let mapleader = "\<Space>"
 "motion overrides
 noremap H ^
 noremap L $
-inoremap jk <ESC>
-inoremap kj <ESC>
 
 "camelcasemotion
 call camelcasemotion#CreateMotionMappings(',')
 set selection=exclusive
+
+"custom textobj
+call textobj#user#plugin('property', {
+\ 'dot': {
+\   'pattern': '\<[^\.]\+\>\.',
+\   'select-a': 'a.',
+\ },
+\ })
 
 "colors
 if has('termguicolors')
@@ -129,7 +147,7 @@ highlight! VertSplit ctermbg=235
 let python_highlight_builtins = 1
 
 "close-tag
-let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js"
+let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
 
 "delimitMate
 let delimitMate_expand_cr = 1
@@ -164,8 +182,10 @@ set expandtab
 set autoindent
 set smartindent
 set copyindent
-set textwidth=79
 set wrap
+autocmd Filetype python setlocal textwidth=79
+autocmd Filetype javascript setlocal textwidth=99
+set formatoptions=crqj
 
 "fold
 highlight! Folded ctermfg=none ctermbg=235
@@ -183,10 +203,15 @@ if has_breakindent
   set breakindent
 endif
 set linebreak
-" don't break on ruby sigils
+" don't break on sigils
 set breakat-=:
 set breakat-=@
+set breakat-=$
+set breakat-=&
 set showbreak=└─
+
+"whitespace
+set listchars=tab:━━,nbsp:·
 
 "buffer navigation
 set hidden
@@ -217,7 +242,7 @@ let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
 let g:gitgutter_sign_removed_first_line = '┃'
 let g:gitgutter_sign_modified_removed   = '┃'
-let g:gitgutter_diff_args = '-b -w --ignore-blank-lines'
+" let g:gitgutter_diff_args = '-b -w --ignore-blank-lines'
 nmap <leader>cu <Plug>GitGutterUndoHunk
 nmap <leader>cs <Plug>GitGutterStageHunk
 nmap <leader>cr <Plug>GitGutterUndoHunk
@@ -234,7 +259,10 @@ let g:neomake_warning_sign = {
       \ 'text': '▲',
       \ 'texthl': 'GitGutterChange',
       \ }
-let g:neomake_javascript_enabled_makers = ['eslint']
+
+
+let g:neomake_javascript_stylelint_maker = neomake#makers#ft#css#stylelint()
+let g:neomake_javascript_enabled_makers = ['eslint', 'stylelint']
 
 "lightline
 set noshowmode
@@ -276,7 +304,7 @@ function! LightlineFugitive()
         let branch = fugitive#head()
         return branch !=# '' ? ' '.branch : ''
     endif
-    return ''
+    return 'not git'
 endfunction
 
 "buftabline
@@ -299,7 +327,6 @@ nnoremap <leader>r :<C-u>Unite -no-split -smartcase -buffer-name=recent -start-i
 nnoremap <leader>o :<C-u>Unite -no-split -smartcase -start-insert -buffer-name=outline outline<CR>
 nnoremap <leader>y :<C-u>Unite -no-split -smartcase -buffer-name=yank history/yank<CR>
 nnoremap <leader>b :<C-u>Unite -no-split -smartcase -buffer-name=buffers buffer<CR>
-nnoremap <leader>t :<C-u>Unite -no-split -smartcase -buffer-name=tags tag:%<CR>
 nnoremap <leader>cc :<C-u>Unite -no-split -smartcase -buffer-name=quickfix quickfix<CR>
 nnoremap <leader>cl :<C-u>Unite -no-split -smartcase -buffer-name=locations location_list<CR>
 nnoremap <leader>gg :<C-u>Unite -no-split -smartcase -buffer-name=grep grep/git<CR>
@@ -367,11 +394,13 @@ endif
 if has('nvim')
   let g:neoterm_position = 'vertical'
   let test#strategy = 'neoterm'
-  command! Test :call neoterm#test#run('current')<CR>
-  command! TestFile :call neoterm#test#run('file')<CR>
-  command! TestAll :call neoterm#test#run('all')<CR>
-  command! TestLast :call neoterm#test#rerun()<CR>
 endif
+nnoremap <leader>t :TestNearest<CR>
+command! Test :TestNearest()<CR>
+let test#python#pytest#options = {
+\ 'nearest': '-svv',
+\ 'file': '-svv',
+\ }
 
 set exrc
 set secure
