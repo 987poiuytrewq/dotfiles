@@ -392,6 +392,7 @@ if exists(':tnoremap')
 endif
 
 if has('nvim')
+  let g:terminal_scrollback_buffer_size = 100000
   let g:neoterm_position = 'vertical'
   let test#strategy = 'neoterm'
 endif
