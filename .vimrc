@@ -381,6 +381,8 @@ let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
 
 "macros
 command! HashTorpedo :%s/ ["':]\(\S*\)["']* => / \1: /g
+nnoremap d" ds"ds[]i.<Esc>
+nnoremap d' ds'ds[]i.<Esc>
 
 "neovim
 if exists(':tnoremap')
@@ -399,8 +401,8 @@ endif
 nnoremap <leader>t :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
-\ 'nearest': '-svv',
-\ 'file': '-svv',
+\ 'nearest': '-svv --pdb',
+\ 'file': '-svv --pdb',
 \ }
 
 set exrc
