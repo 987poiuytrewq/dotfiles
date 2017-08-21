@@ -33,6 +33,7 @@ Plug 'moll/vim-bbye'
 Plug 'ntpeters/vim-better-whitespace'
 
 "interface
+Plug 'w0rp/ale'
 Plug 'benekastah/neomake'
 if has_ycm
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
@@ -67,10 +68,12 @@ Plug 'bps/vim-textobj-python', {'for': 'python'}
 Plug 'tpope/vim-rails', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
 
+Plug 'fs111/pydoc.vim', { 'for': 'python' }
+
 "file types
 Plug 'fleischie/vim-styled-components'
 Plug 'hashivim/vim-terraform'
-Plug 'hdima/python-syntax'
+Plug 'vim-python/python-syntax'
 Plug 'jamessan/vim-gnupg'
 Plug 'lepture/vim-jinja'
 Plug 'martinda/Jenkinsfile-vim-syntax'
@@ -144,7 +147,6 @@ set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:·
 highlight! StatusLineNC ctermbg=235
 highlight! VertSplit ctermbg=235
-let python_highlight_builtins = 1
 
 "close-tag
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
@@ -170,9 +172,9 @@ let g:hl_fold_end_linehl = 'MatchParen'
 set nobackup
 set nowritebackup
 set noswapfile
-autocmd InsertLeave * nested update
+autocmd! InsertLeave * nested update
 if has_textchanged
-    autocmd TextChanged * nested update
+    autocmd! TextChanged * nested update
 endif
 
 "indent
@@ -183,8 +185,8 @@ set autoindent
 set smartindent
 set copyindent
 set wrap
-autocmd Filetype python setlocal textwidth=79
-autocmd Filetype javascript setlocal textwidth=99
+autocmd! Filetype python setlocal textwidth=79
+autocmd! Filetype javascript setlocal textwidth=99
 set formatoptions=crqj
 
 "fold
@@ -338,8 +340,8 @@ nnoremap <leader>gb :<C-u>Unite -no-split -smartcase -buffer-name=git_branch ung
 function! s:unite_directory_keybindings()
   imap <buffer> <C-h> <Plug>(unite_delete_backward_path)
 endfunction
-autocmd FileType unite call s:unite_directory_keybindings()
-autocmd FileType unite setlocal number
+autocmd! FileType unite call s:unite_directory_keybindings()
+autocmd! FileType unite setlocal number
 
 "vimfiler
 nnoremap <leader>s :<C-u>VimFilerBufferDir<CR>
@@ -352,8 +354,8 @@ let g:vimfiler_tree_readonly_icon = ''
 call vimfiler#custom#profile('default', 'context', {
         \   'safe_mode' : 0
         \ })
-autocmd FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
-autocmd FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
+autocmd! FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
+autocmd! FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
 
 if has_ycm
   "youcompleteme
@@ -379,8 +381,16 @@ command! RspecFile :call RunCurrentSpecFile()<CR>
 "javascript-libraries
 let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
 
+"python
+let g:polyglot_disabled = ['python']
+let g:python_highlight_all = 1
+" autocmd! FileType python syntax keyword pythonBuiltinObj self
+" autocmd! FileType python syntax keyword pythonBuiltinObj cls
+
+
 "macros
 command! HashTorpedo :%s/ ["':]\(\S*\)["']* => / \1: /g
+command! Undict f[vf]:s/['"]/g
 nnoremap d" ds"ds[]i.<Esc>
 nnoremap d' ds'ds[]i.<Esc>
 

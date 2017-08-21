@@ -1,6 +1,7 @@
 tags
 tags.lock
 tags.temp
+.gutctags
 .uniteignore
 npm-debug.log
 .exrc
