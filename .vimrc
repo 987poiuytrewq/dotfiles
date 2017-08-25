@@ -34,10 +34,10 @@ Plug 'ntpeters/vim-better-whitespace'
 
 "interface
 Plug 'w0rp/ale'
-Plug 'benekastah/neomake'
 if has_ycm
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 endif
+Plug 'w0rp/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 
@@ -93,9 +93,12 @@ Plug 'sickill/vim-monokai'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
-Plug 'flazz/vim-colorschemes'
+Plug 'hzchirs/vim-material'
+Plug 'fneu/breezy'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'zanglg/nova.vim'
+Plug 'roosta/vim-srcery'
 Plug 'guns/xterm-color-table.vim'
-Plug 'chrisbra/Colorizer'
 
 call plug#end()
 
@@ -119,34 +122,29 @@ noremap L $
 call camelcasemotion#CreateMotionMappings(',')
 set selection=exclusive
 
-"custom textobj
-call textobj#user#plugin('property', {
-\ 'dot': {
-\   'pattern': '\<[^\.]\+\>\.',
-\   'select-a': 'a.',
-\ },
-\ })
-
 "colors
-if has('termguicolors')
-    " set termguicolors
-endif
 set t_Co=256
 set background=dark
-colorscheme onedark
+colorscheme neodark
 highlight! Normal ctermbg=none guibg=none
-highlight! NonText ctermbg=none
-highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
-highlight! DiffChange cterm=none ctermfg=none ctermbg=none
-highlight! DiffDelete cterm=none ctermfg=204 ctermbg=none
-highlight! DiffText cterm=none ctermfg=none ctermbg=17
-highlight! link Search IncSearch
-highlight! link Pmenu StatusLineNC
-highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234
+highlight! NonText ctermbg=none guibg=none
+" highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
+" highlight! DiffChange cterm=none ctermfg=none ctermbg=none
+" highlight! DiffDelete cterm=none ctermfg=204 ctermbg=none
+" highlight! DiffText cterm=none ctermfg=none ctermbg=17
+" highlight! link Search IncSearch
+" highlight! link Pmenu StatusLineNC
+" highlight! StatusLineNC ctermbg=235
+" highlight! VertSplit ctermbg=235
+highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:·
+<<<<<<< HEAD
 highlight! StatusLineNC ctermbg=235
 highlight! VertSplit ctermbg=235
+=======
+let python_highlight_builtins = 1
+>>>>>>> linux compat
 
 "close-tag
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
@@ -172,10 +170,21 @@ let g:hl_fold_end_linehl = 'MatchParen'
 set nobackup
 set nowritebackup
 set noswapfile
+<<<<<<< HEAD
 autocmd! InsertLeave * nested update
 if has_textchanged
     autocmd! TextChanged * nested update
 endif
+=======
+augroup autosave
+    autocmd!
+    autocmd InsertLeave * nested update
+
+    if has_textchanged
+        autocmd TextChanged * nested update
+    endif
+augroup END
+>>>>>>> linux compat
 
 "indent
 set tabstop=4
@@ -195,14 +204,14 @@ set foldmethod=syntax
 set foldenable
 set foldlevelstart=99
 function! FoldText()
-  return substitute(getline(v:foldstart), '^.', '▶', '') . ' ... ' .
-        \ substitute(getline(v:foldend), '^\s*', '', '')
+    return substitute(getline(v:foldstart), '^.', '▶', '') . ' ... ' .
+                \ substitute(getline(v:foldend), '^\s*', '', '')
 endfunction
 set foldtext=FoldText()
 
 "wrap
 if has_breakindent
-  set breakindent
+    set breakindent
 endif
 set linebreak
 " don't break on sigils
@@ -244,62 +253,64 @@ let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
 let g:gitgutter_sign_removed_first_line = '┃'
 let g:gitgutter_sign_modified_removed   = '┃'
-" let g:gitgutter_diff_args = '-b -w --ignore-blank-lines'
 nmap <leader>cu <Plug>GitGutterUndoHunk
 nmap <leader>cs <Plug>GitGutterStageHunk
 nmap <leader>cr <Plug>GitGutterUndoHunk
 nmap <leader>cp <Plug>GitGutterPreviewHunk
 
-"neomake
-autocmd! BufReadPost * Neomake
-autocmd! BufWritePost * Neomake
-let g:neomake_error_sign = {
-      \ 'text': '▲',
-      \ 'texthl': 'GitGutterDelete',
-      \ }
-let g:neomake_warning_sign = {
-      \ 'text': '▲',
-      \ 'texthl': 'GitGutterChange',
-      \ }
-
-
-let g:neomake_javascript_stylelint_maker = neomake#makers#ft#css#stylelint()
-let g:neomake_javascript_enabled_makers = ['eslint', 'stylelint']
+"ale
+" let g:ale_fix_on_save = 1
+let g:ale_linters = {
+            \ 'javascript': ['eslint'],
+            \ }
+let g:ale_fixers = {
+            \ 'javascript': ['prettier', 'eslint'],
+            \ 'python': 'yapf',
+            \ }
+let g:ale_sign_error = '▶▶'
+let g:ale_sign_warning = '▶▶'
+highlight! link ALEErrorSign GitGutterDelete
+highlight! link ALEWarningSign GitGutterChange
+augroup format
+    autocmd!
+    autocmd BufLeave,BufUnload,BufHidden,WinLeave,FocusLost * silent! ALEFix
+augroup END
 
 "lightline
 set noshowmode
 set laststatus=2
 let g:lightline = {
-      \ 'subseparator': { 'left': '', 'right': '' },
-      \ 'active': {
-      \   'left': [
-      \     [ 'mode', 'paste' ],
-      \     [ 'fugitive'],
-      \     [ 'readonly', 'filename' ],
-      \   ],
-      \  'right': [],
-      \ },
-      \ 'inactive': {
-      \   'left': [
-      \     [],
-      \     [],
-      \     [ 'readonly', 'filename' ],
-      \   ],
-      \  'right': [],
-      \ },
-      \ 'component_function': {
-      \   'readonly': 'LightlineReadonly',
-      \   'filename': 'LightlineFilename',
-      \   'fugitive': 'LightlineFugitive',
-      \ },
-      \ }
+            \ 'colorscheme': 'neodark',
+            \ 'subseparator': { 'left': '', 'right': '' },
+            \ 'active': {
+            \   'left': [
+            \     [ 'mode', 'paste' ],
+            \     [ 'fugitive'],
+            \     [ 'readonly', 'filename' ],
+            \   ],
+            \  'right': [],
+            \ },
+            \ 'inactive': {
+            \   'left': [
+            \     [],
+            \     [],
+            \     [ 'readonly', 'filename' ],
+            \   ],
+            \  'right': [],
+            \ },
+            \ 'component_function': {
+            \   'readonly': 'LightlineReadonly',
+            \   'filename': 'LightlineFilename',
+            \   'fugitive': 'LightlineFugitive',
+            \ },
+            \ }
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
 function! LightlineFilename()
     return &ft == 'unite' ? unite#get_status_string() :
-      \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-      \ @%
+                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+                \ @%
 endfunction
 function! LightlineFugitive()
     if exists('*fugitive#head')
@@ -338,7 +349,7 @@ nnoremap <leader>gb :<C-u>Unite -no-split -smartcase -buffer-name=git_branch ung
 
 "unite customisation
 function! s:unite_directory_keybindings()
-  imap <buffer> <C-h> <Plug>(unite_delete_backward_path)
+    imap <buffer> <C-h> <Plug>(unite_delete_backward_path)
 endfunction
 autocmd! FileType unite call s:unite_directory_keybindings()
 autocmd! FileType unite setlocal number
@@ -352,17 +363,24 @@ let g:vimfiler_tree_opened_icon = '▼'
 let g:vimfiler_tree_closed_icon = '▶'
 let g:vimfiler_tree_readonly_icon = ''
 call vimfiler#custom#profile('default', 'context', {
+<<<<<<< HEAD
         \   'safe_mode' : 0
         \ })
 autocmd! FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
 autocmd! FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
+=======
+            \   'safe_mode' : 0
+            \ })
+autocmd FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
+autocmd FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
+>>>>>>> linux compat
 
 if has_ycm
-  "youcompleteme
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:ycm_seed_identifiers_with_syntax = 1
-  let g:ycm_add_preview_to_completeopt = 0
-  set completeopt-=preview
+    "youcompleteme
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    let g:ycm_seed_identifiers_with_syntax = 1
+    let g:ycm_add_preview_to_completeopt = 0
+    set completeopt-=preview
 endif
 
 "ruby complete
@@ -396,25 +414,25 @@ nnoremap d' ds'ds[]i.<Esc>
 
 "neovim
 if exists(':tnoremap')
-  tnoremap <Esc> <C-\><C-n>
-  tnoremap <C-h> <C-\><C-n><C-w>h
-  tnoremap <C-j> <C-\><C-n><C-w>j
-  tnoremap <C-k> <C-\><C-n><C-w>k
-  tnoremap <C-l> <C-\><C-n><C-w>l
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
 endif
 
 if has('nvim')
-  set termguicolors
-  let g:terminal_scrollback_buffer_size = 100000
-  let g:neoterm_position = 'vertical'
-  let test#strategy = 'neoterm'
+    set termguicolors
+    let g:terminal_scrollback_buffer_size = 100000
+    let g:neoterm_position = 'vertical'
+    let test#strategy = 'neoterm'
 endif
 nnoremap <leader>t :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
-\ 'nearest': '-svv --pdb',
-\ 'file': '-svv --pdb',
-\ }
+            \ 'nearest': '-svv --pdb',
+            \ 'file': '-svv --pdb',
+            \ }
 
 set exrc
 set secure
