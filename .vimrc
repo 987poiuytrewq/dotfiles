@@ -139,12 +139,7 @@ highlight! NonText ctermbg=none guibg=none
 highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:·
-<<<<<<< HEAD
-highlight! StatusLineNC ctermbg=235
-highlight! VertSplit ctermbg=235
-=======
 let python_highlight_builtins = 1
->>>>>>> linux compat
 
 "close-tag
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
@@ -170,12 +165,6 @@ let g:hl_fold_end_linehl = 'MatchParen'
 set nobackup
 set nowritebackup
 set noswapfile
-<<<<<<< HEAD
-autocmd! InsertLeave * nested update
-if has_textchanged
-    autocmd! TextChanged * nested update
-endif
-=======
 augroup autosave
     autocmd!
     autocmd InsertLeave * nested update
@@ -184,7 +173,6 @@ augroup autosave
         autocmd TextChanged * nested update
     endif
 augroup END
->>>>>>> linux compat
 
 "indent
 set tabstop=4
@@ -363,17 +351,10 @@ let g:vimfiler_tree_opened_icon = '▼'
 let g:vimfiler_tree_closed_icon = '▶'
 let g:vimfiler_tree_readonly_icon = ''
 call vimfiler#custom#profile('default', 'context', {
-<<<<<<< HEAD
         \   'safe_mode' : 0
         \ })
 autocmd! FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
 autocmd! FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
-=======
-            \   'safe_mode' : 0
-            \ })
-autocmd FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
-autocmd FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
->>>>>>> linux compat
 
 if has_ycm
     "youcompleteme
