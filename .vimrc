@@ -81,6 +81,7 @@ Plug 'mitsuhiko/vim-rst'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'raimon49/requirements.txt.vim'
 Plug 'saltstack/salt-vim'
+Plug 'chr4/nginx.vim'
 Plug 'sheerun/vim-polyglot'
 
 "test
@@ -89,16 +90,10 @@ Plug 'janko-m/vim-test'
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
 
 "colors
-Plug 'sickill/vim-monokai'
-Plug 'gosukiwi/vim-atom-dark'
-Plug 'joshdick/onedark.vim'
-Plug 'rakr/vim-one'
-Plug 'hzchirs/vim-material'
-Plug 'fneu/breezy'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'zanglg/nova.vim'
-Plug 'roosta/vim-srcery'
-Plug 'guns/xterm-color-table.vim'
+source ~/.vim/colors.vim
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'xolox/vim-colorscheme-switcher'
+Plug 'xolox/vim-misc'
 
 call plug#end()
 
@@ -125,7 +120,7 @@ set selection=exclusive
 "colors
 set t_Co=256
 set background=dark
-colorscheme neodark
+colorscheme onehalfdark
 highlight! Normal ctermbg=none guibg=none
 highlight! NonText ctermbg=none guibg=none
 " highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
@@ -268,7 +263,7 @@ augroup END
 set noshowmode
 set laststatus=2
 let g:lightline = {
-            \ 'colorscheme': 'neodark',
+            \ 'colorscheme': 'onehalfdark',
             \ 'subseparator': { 'left': '', 'right': '' },
             \ 'active': {
             \   'left': [
@@ -381,7 +376,7 @@ command! RspecFile :call RunCurrentSpecFile()<CR>
 let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
 
 "python
-let g:polyglot_disabled = ['python']
+let g:polyglot_disabled = ['python', 'nginx']
 let g:python_highlight_all = 1
 " autocmd! FileType python syntax keyword pythonBuiltinObj self
 " autocmd! FileType python syntax keyword pythonBuiltinObj cls
