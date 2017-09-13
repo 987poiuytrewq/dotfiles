@@ -91,7 +91,11 @@ Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
 
 "colors
 source ~/.vim/colors.vim
+Plug 'chriskempson/base16-vim'
+Plug 'daviesjamie/vim-base16-lightline'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'joshdick/onedark.vim'
+Plug 'gosukiwi/vim-atom-dark'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
 
@@ -118,20 +122,19 @@ call camelcasemotion#CreateMotionMappings(',')
 set selection=exclusive
 
 "colors
+if has('nvim')
+    set termguicolors
+endif
+let g:colorscheme_switcher_exclude_builtins = 1
 set t_Co=256
 set background=dark
-colorscheme onehalfdark
-highlight! Normal ctermbg=none guibg=none
-highlight! NonText ctermbg=none guibg=none
-" highlight! DiffAdd cterm=none ctermfg=none ctermbg=22
-" highlight! DiffChange cterm=none ctermfg=none ctermbg=none
-" highlight! DiffDelete cterm=none ctermfg=204 ctermbg=none
-" highlight! DiffText cterm=none ctermfg=none ctermbg=17
-" highlight! link Search IncSearch
-" highlight! link Pmenu StatusLineNC
-" highlight! StatusLineNC ctermbg=235
-" highlight! VertSplit ctermbg=235
-highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
+colorscheme base16-materia
+augroup colors
+    autocmd!
+    autocmd ColorScheme,VimEnter * highlight! Normal ctermbg=none guibg=none
+    autocmd ColorScheme,VimEnter * highlight! NonText ctermbg=none guibg=none
+    autocmd ColorScheme,VimEnter * highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
+augroup END
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:·
 let python_highlight_builtins = 1
@@ -263,7 +266,7 @@ augroup END
 set noshowmode
 set laststatus=2
 let g:lightline = {
-            \ 'colorscheme': 'onehalfdark',
+            \ 'colorscheme': 'base16',
             \ 'subseparator': { 'left': '', 'right': '' },
             \ 'active': {
             \   'left': [
@@ -398,7 +401,6 @@ if exists(':tnoremap')
 endif
 
 if has('nvim')
-    set termguicolors
     let g:terminal_scrollback_buffer_size = 100000
     let g:neoterm_position = 'vertical'
     let test#strategy = 'neoterm'
