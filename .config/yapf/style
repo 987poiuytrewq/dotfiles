@@ -1,3 +1,4 @@
 [style]
 dedent_closing_brackets = true
 coalesce_brackets = true
+indent_dictionary_value = true

@@ -26,6 +26,7 @@ Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/closetag.vim'
+Plug 'vim-scripts/loremipsum'
 
 "buffers
 Plug 'tpope/vim-eunuch'
@@ -73,7 +74,7 @@ Plug 'fs111/pydoc.vim', { 'for': 'python' }
 "file types
 Plug 'fleischie/vim-styled-components'
 Plug 'hashivim/vim-terraform'
-Plug 'vim-python/python-syntax'
+Plug 'kh3phr3n/python-syntax'
 Plug 'jamessan/vim-gnupg'
 Plug 'lepture/vim-jinja'
 Plug 'martinda/Jenkinsfile-vim-syntax'
@@ -96,6 +97,7 @@ Plug 'daviesjamie/vim-base16-lightline'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'joshdick/onedark.vim'
 Plug 'gosukiwi/vim-atom-dark'
+Plug 'ap/vim-css-color'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
 
@@ -128,7 +130,7 @@ endif
 let g:colorscheme_switcher_exclude_builtins = 1
 set t_Co=256
 set background=dark
-colorscheme base16-materia
+colorscheme base16-circus
 augroup colors
     autocmd!
     autocmd ColorScheme,VimEnter * highlight! Normal ctermbg=none guibg=none
@@ -137,7 +139,7 @@ augroup colors
 augroup END
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:·
-let python_highlight_builtins = 1
+let python_highlight_all = 1
 
 "close-tag
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
@@ -381,8 +383,6 @@ let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
 "python
 let g:polyglot_disabled = ['python', 'nginx']
 let g:python_highlight_all = 1
-" autocmd! FileType python syntax keyword pythonBuiltinObj self
-" autocmd! FileType python syntax keyword pythonBuiltinObj cls
 
 
 "macros
