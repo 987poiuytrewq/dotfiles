@@ -91,7 +91,6 @@ Plug 'janko-m/vim-test'
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
 
 "colors
-source ~/.vim/colors.vim
 Plug 'chriskempson/base16-vim'
 Plug 'daviesjamie/vim-base16-lightline'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
