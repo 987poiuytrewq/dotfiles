@@ -135,9 +135,13 @@ augroup colors
     autocmd ColorScheme,VimEnter * highlight! Normal ctermbg=none guibg=none
     autocmd ColorScheme,VimEnter * highlight! NonText ctermbg=none guibg=none
     autocmd ColorScheme,VimEnter * highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
+    autocmd ColorScheme,VimEnter * highlight! DiffAdd guifg=none guibg=#002000
+    autocmd ColorScheme,VimEnter * highlight! DiffChange guifg=none guibg=none
+    autocmd ColorScheme,VimEnter * highlight! DiffText guifg=none guibg=#000020
+    autocmd ColorScheme,VimEnter * highlight! DiffDelete guifg=none guibg=#200000
 augroup END
 set hlsearch
-set fillchars=vert:\ ,fold:\ ,diff:·
+set fillchars=vert:\ ,fold:\ ,diff:\ ,
 let python_highlight_all = 1
 
 "close-tag
