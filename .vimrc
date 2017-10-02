@@ -34,7 +34,6 @@ Plug 'moll/vim-bbye'
 Plug 'ntpeters/vim-better-whitespace'
 
 "interface
-Plug 'w0rp/ale'
 if has_ycm
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 endif
@@ -47,13 +46,11 @@ Plug 'Shougo/denite.nvim'
 
 "git
 Plug 'neoclide/denite-git'
-Plug 'neoclide/easy-git'
+Plug 'neoclide/vim-easygit'
 Plug 'airblade/vim-gitgutter'
 
 "textobj
 Plug 'kana/vim-textobj-user'
-Plug 'beloglazov/vim-textobj-quotes'
-Plug 'sgur/vim-textobj-parameter'
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby,eruby' }
 Plug 'bps/vim-textobj-python', {'for': 'python'}
 
@@ -61,7 +58,6 @@ Plug 'bps/vim-textobj-python', {'for': 'python'}
 Plug 'tpope/vim-rails', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
 
-Plug 'fs111/pydoc.vim', { 'for': 'python' }
 
 "file types
 Plug 'Quramy/vim-js-pretty-template'
@@ -156,6 +152,7 @@ let g:hl_fold_end_text = ''
 let g:hl_fold_start_linehl = 'MatchParen'
 let g:hl_fold_end_linehl = 'MatchParen'
 
+
 set nobackup
 set nowritebackup
 set noswapfile
@@ -240,6 +237,9 @@ nmap <leader>cs <Plug>GitGutterStageHunk
 nmap <leader>cr <Plug>GitGutterUndoHunk
 nmap <leader>cp <Plug>GitGutterPreviewHunk
 
+"easygit
+let g:easygit_enable_command = 1
+
 "ale
 " let g:ale_fix_on_save = 1
 let g:ale_linters = {
@@ -281,15 +281,27 @@ let g:lightline = {
             \  'right': [],
             \ },
             \ 'component_function': {
+            \   'mode': 'LightlineMode',
             \   'readonly': 'LightlineReadonly',
             \   'filename': 'LightlineFilename',
             \   'fugitive': 'LightlineFugitive',
             \ },
             \ }
+function! LightlineMode()
+    if &ft == 'denite'
+        let mode = substitute(denite#get_status_mode(), " *-- *", "", "g")
+        call lightline#link(tolower(mode[0]))
+        return mode
+    endif
+    return lightline#mode()
+endfunction
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
 function! LightlineFilename()
+    if &ft == 'denite'
+        return denite#get_status_sources()
+    else
     return @%
 endfunction
 function! LightlineFugitive()
@@ -335,12 +347,14 @@ highlight! link BufTabLineCurrent PmenuSel
 " autocmd! FileType unite setlocal number
 
 "denite
-nnoremap <leader>f :<C-u>Denite -split=no -smartcase -buffer-name=files file_rec<CR>
-nnoremap <leader>b :<C-u>Denite -split=no -smartcase -buffer-name=buffers buffer<CR>
-nnoremap <leader>s :<C-u>Denite -split=no -smartcase -buffer-name=search grep<CR>
+nnoremap <leader>f :<C-u>Denite -split=no -smartcase=true file_rec<CR>
+nnoremap <leader>b :<C-u>Denite -split=no -smartcase buffer<CR>
+nnoremap <leader>s :<C-u>Denite -split=no -smartcase grep<CR>
 call denite#custom#option('default', {
-      \ 'prompt': '❯'
-      \ })
+            \ 'prompt': '',
+            \ 'short_source_names': v:true,
+            \ 'statusline': v:false
+            \ })
 call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>', 'noremap')
 call denite#custom#map('normal', '<Esc>', '<NOP>', 'noremap')
 call denite#custom#var('file_rec', 'command',
