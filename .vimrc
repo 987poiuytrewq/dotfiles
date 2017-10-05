@@ -43,10 +43,13 @@ Plug 'ap/vim-buftabline'
 
 "denite
 Plug 'Shougo/denite.nvim'
+Plug 'Shougo/neoyank.vim'
+
+"navigate
+Plug 'justinmk/vim-dirvish'
 
 "git
-Plug 'neoclide/denite-git'
-Plug 'neoclide/vim-easygit'
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 "textobj
@@ -316,38 +319,9 @@ endfunction
 highlight! link BufTabLineActive TabLineSel
 highlight! link BufTabLineCurrent PmenuSel
 
-"unite
-" let g:unite_source_history_yank_enable = 1
-" call unite#filters#matcher_default#use('matcher_fuzzy')
-" call unite#filters#sorter_default#use('sorter_selecta')
-" call unite#custom#source('file_mru', 'matchers', ['matcher_project_files', 'matcher_fuzzy'])
-" call unite#custom#source('file', 'converters', ['converter_tail_abbr'])
-" call unite#custom#source('file', 'matchers', ['matcher_default'])
-" call unite#custom#source('file_rec,file_rec/git', 'converters', ['converter_relative_abbr'])
-" nnoremap <leader># :<C-u>Unite -no-split -smartcase -buffer-name=directories -start-insert -hide-source-names file file/new directory/new<CR>
-" nnoremap <leader>` :<C-u>Unite -no-split -smartcase -buffer-name=directories -start-insert -hide-source-names file file/new directory/new<CR>
-" nnoremap <leader>d :<C-u>UniteWithBufferDir -no-split -smartcase -buffer-name=directories -start-insert -hide-source-names file file/new directory/new<CR>
-" nnoremap <leader>f :<C-u>Unite -no-split -smartcase -buffer-name=files -start-insert file_rec/git:--cached:--others:--exclude-standard<CR>
-" nnoremap <leader>r :<C-u>Unite -no-split -smartcase -buffer-name=recent -start-insert file_mru<CR>
-" nnoremap <leader>o :<C-u>Unite -no-split -smartcase -start-insert -buffer-name=outline outline<CR>
-" nnoremap <leader>y :<C-u>Unite -no-split -smartcase -buffer-name=yank history/yank<CR>
-" nnoremap <leader>b :<C-u>Unite -no-split -smartcase -buffer-name=buffers buffer<CR>
-" nnoremap <leader>cc :<C-u>Unite -no-split -smartcase -buffer-name=quickfix quickfix<CR>
-" nnoremap <leader>cl :<C-u>Unite -no-split -smartcase -buffer-name=locations location_list<CR>
-" nnoremap <leader>gg :<C-u>Unite -no-split -smartcase -buffer-name=grep grep/git<CR>
-" nnoremap <leader>gp :<C-u>UniteResume grep<CR>
-" nnoremap <leader>gs :<C-u>Unite -no-split -smartcase -buffer-name=git_status ungite/status<CR>
-" nnoremap <leader>gb :<C-u>Unite -no-split -smartcase -buffer-name=git_branch ungite/branch<CR>
-"
-" "unite customisation
-" function! s:unite_directory_keybindings()
-"     imap <buffer> <C-h> <Plug>(unite_delete_backward_path)
-" endfunction
-" autocmd! FileType unite call s:unite_directory_keybindings()
-" autocmd! FileType unite setlocal number
-
 "denite
 nnoremap <leader>f :<C-u>Denite -split=no -smartcase=true file_rec<CR>
+nnoremap <leader>y :<C-u>Denite -split=no -smartcase=true history/yank<CR>
 nnoremap <leader>b :<C-u>Denite -split=no -smartcase buffer<CR>
 nnoremap <leader>s :<C-u>Denite -split=no -smartcase grep<CR>
 call denite#custom#option('default', {
@@ -366,20 +340,6 @@ call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
-
-"vimfiler
-" nnoremap <leader>s :<C-u>VimFilerBufferDir<CR>
-" let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_expand_jump_to_first_child = 0
-" let g:vimfiler_tree_leaf_icon = ''
-" let g:vimfiler_tree_opened_icon = '▼'
-" let g:vimfiler_tree_closed_icon = '▶'
-" let g:vimfiler_tree_readonly_icon = ''
-" call vimfiler#custom#profile('default', 'context', {
-"         \   'safe_mode' : 0
-"         \ })
-" autocmd! FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
-" autocmd! FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
 
 if has_ycm
     "youcompleteme
