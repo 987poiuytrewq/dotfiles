@@ -72,7 +72,7 @@ Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
 Plug 'fs111/pydoc.vim', { 'for': 'python' }
 
 "file types
-Plug 'fleischie/vim-styled-components'
+Plug 'Quramy/vim-js-pretty-template'
 Plug 'hashivim/vim-terraform'
 Plug 'kh3phr3n/python-syntax'
 Plug 'jamessan/vim-gnupg'
@@ -82,7 +82,6 @@ Plug 'mitsuhiko/vim-rst'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'raimon49/requirements.txt.vim'
 Plug 'saltstack/salt-vim'
-Plug 'chr4/nginx.vim'
 Plug 'sheerun/vim-polyglot'
 
 "test
@@ -91,12 +90,8 @@ Plug 'janko-m/vim-test'
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
 
 "colors
-Plug 'chriskempson/base16-vim'
 Plug 'daviesjamie/vim-base16-lightline'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'joshdick/onedark.vim'
-Plug 'gosukiwi/vim-atom-dark'
-Plug 'ap/vim-css-color'
+Plug 'chrisbra/Colorizer'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
 
@@ -129,7 +124,7 @@ endif
 let g:colorscheme_switcher_exclude_builtins = 1
 set t_Co=256
 set background=dark
-colorscheme base16-circus
+source ~/.vim/base16-circus.vim
 augroup colors
     autocmd!
     autocmd ColorScheme,VimEnter * highlight! Normal ctermbg=none guibg=none
@@ -139,10 +134,12 @@ augroup colors
     autocmd ColorScheme,VimEnter * highlight! DiffChange guifg=none guibg=none
     autocmd ColorScheme,VimEnter * highlight! DiffText guifg=none guibg=#000020
     autocmd ColorScheme,VimEnter * highlight! DiffDelete guifg=none guibg=#200000
+    autocmd FileType javascript,javascript.jsx JsPreTmpl sass
 augroup END
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:\ ,
 let python_highlight_all = 1
+let g:vim_markdown_frontmatter = 1
 
 "close-tag
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
@@ -238,7 +235,7 @@ nnoremap <C-c> :cp<CR>
 inoremap <C-p> <C-r>"
 
 "git gutter
-let g:gitgutter_sign_column_always      = 1
+set signcolumn=yes
 let g:gitgutter_sign_added              = '┃'
 let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
@@ -384,15 +381,12 @@ command! RspecFile :call RunCurrentSpecFile()<CR>
 let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
 
 "python
-let g:polyglot_disabled = ['python', 'nginx']
+let g:polyglot_disabled = ['python']
 let g:python_highlight_all = 1
 
 
 "macros
 command! HashTorpedo :%s/ ["':]\(\S*\)["']* => / \1: /g
-command! Undict f[vf]:s/['"]/g
-nnoremap d" ds"ds[]i.<Esc>
-nnoremap d' ds'ds[]i.<Esc>
 
 "neovim
 if exists(':tnoremap')
@@ -413,6 +407,7 @@ command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
             \ 'nearest': '-svv --pdb',
             \ 'file': '-svv --pdb',
+            \ 'suite': '-xsvv --pdb',
             \ }
 
 set exrc
