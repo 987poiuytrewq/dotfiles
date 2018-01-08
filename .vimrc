@@ -5,7 +5,9 @@ let has_textchanged = v:version > 704 || (v:version == 704 && has('patch126'))
 call plug#begin('~/.vim/plugged')
 
 "util
-Plug 'tpope/vim-sensible'
+if !has('nvim')
+    Plug 'tpope/vim-sensible'
+endif
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -45,7 +47,6 @@ Plug 'ap/vim-buftabline'
 "unite
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/denite.nvim'
-Plug 'Shougo/vimfiler.vim'
 Plug 'Shougo/unite-outline'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neoyank.vim'
@@ -53,6 +54,7 @@ Plug 'lambdalisue/unite-grep-vcs'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'tsukkee/unite-tag'
 Plug '~/projects/personal/ungite.vim'
+Plug '~/projects/personal/direct.vim'
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -300,7 +302,6 @@ function! LightlineReadonly()
 endfunction
 function! LightlineFilename()
     return &ft == 'unite' ? unite#get_status_string() :
-                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
                 \ @%
 endfunction
 function! LightlineFugitive()
@@ -345,19 +346,6 @@ endfunction
 autocmd! FileType unite call s:unite_directory_keybindings()
 autocmd! FileType unite setlocal number
 
-"vimfiler
-nnoremap <leader>s :<C-u>VimFilerBufferDir<CR>
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_expand_jump_to_first_child = 0
-let g:vimfiler_tree_leaf_icon = ''
-let g:vimfiler_tree_opened_icon = '▼'
-let g:vimfiler_tree_closed_icon = '▶'
-let g:vimfiler_tree_readonly_icon = ''
-call vimfiler#custom#profile('default', 'context', {
-        \   'safe_mode' : 0
-        \ })
-autocmd! FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
-autocmd! FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
 
 if has_ycm
     "youcompleteme
@@ -384,6 +372,8 @@ command! RspecFile :call RunCurrentSpecFile()<CR>
 let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
 
 "python
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
 let g:polyglot_disabled = ['python', 'nginx']
 let g:python_highlight_all = 1
 
