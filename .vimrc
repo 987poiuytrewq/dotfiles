@@ -229,7 +229,7 @@ nnoremap <C-c> :cp<CR>
 inoremap <C-p> <C-r>"
 
 "git gutter
-set signcolumn=yes
+let signcolumn="yes"
 let g:gitgutter_sign_added              = '┃'
 let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
@@ -320,10 +320,11 @@ highlight! link BufTabLineActive TabLineSel
 highlight! link BufTabLineCurrent PmenuSel
 
 "denite
-nnoremap <leader>f :<C-u>Denite -split=no -smartcase=true file_rec<CR>
-nnoremap <leader>y :<C-u>Denite -split=no -smartcase=true history/yank<CR>
-nnoremap <leader>b :<C-u>Denite -split=no -smartcase buffer<CR>
-nnoremap <leader>s :<C-u>Denite -split=no -smartcase grep<CR>
+nnoremap <leader>f :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel file_rec<CR>
+nnoremap <leader>b :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel buffer<CR>
+nnoremap <leader>t :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel tag<CR>
+nnoremap <leader>/ :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel -mode=normal grep<CR>
+nnoremap <leader># :<C-u>DeniteCursorWord -split=no -smartcase -mode=normal -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel grep<CR>
 call denite#custom#option('default', {
             \ 'prompt': '',
             \ 'short_source_names': v:true,
@@ -348,7 +349,7 @@ if has_ycm
     let g:ycm_add_preview_to_completeopt = 0
     let g:ycm_semantic_triggers = {
                 \ 'css': ['re!^\s{2}', 're!:\s+'],
-                \ 'scss': ['re!^\s{2}', 're!:\s+'], 
+                \ 'scss': ['re!^\s{2}', 're!:\s+'],
                 \ }
     set completeopt-=preview
 endif
@@ -390,7 +391,7 @@ if has('nvim')
     let g:neoterm_position = 'vertical'
     let test#strategy = 'neoterm'
 endif
-nnoremap <leader>t :TestNearest<CR>
+nnoremap <C-t> :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
             \ 'nearest': '-svv --pdb',
