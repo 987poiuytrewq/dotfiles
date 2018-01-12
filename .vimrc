@@ -13,8 +13,8 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'christoomey/vim-titlecase'
+Plug 'godlygeek/tabular'
 
-Plug 'takac/vim-spotifysearch'
 
 "motion
 Plug 'bkad/CamelCaseMotion'
@@ -25,7 +25,7 @@ Plug 'vimtaku/hl_matchit.vim'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'Raimondi/delimitMate'
-Plug 'vim-scripts/closetag.vim'
+Plug 'alvan/vim-closetag'
 Plug 'vim-scripts/loremipsum'
 
 "buffers
@@ -53,6 +53,7 @@ Plug 'lambdalisue/unite-grep-vcs'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'tsukkee/unite-tag'
 Plug '~/projects/personal/ungite.vim'
+Plug '~/projects/personal/direct.vim'
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -69,7 +70,8 @@ Plug 'bps/vim-textobj-python', {'for': 'python'}
 Plug 'tpope/vim-rails', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
 
-Plug 'fs111/pydoc.vim', { 'for': 'python' }
+"python
+Plug 'rooprob/vim-behave', { 'for': 'cucumber' }
 
 "file types
 Plug 'Quramy/vim-js-pretty-template'
@@ -102,6 +104,8 @@ set number
 set mouse=a
 set ttyfast
 set ttimeoutlen=0
+let g:python_host_prog='/usr/bin/python'
+let g:python3_host_prog='/usr/local/bin/python3'
 
 "clipboard
 set clipboard=unnamed,unnamedplus
@@ -127,14 +131,14 @@ set background=dark
 source ~/.vim/base16-circus.vim
 augroup colors
     autocmd!
-    autocmd ColorScheme,VimEnter * highlight! Normal ctermbg=none guibg=none
-    autocmd ColorScheme,VimEnter * highlight! NonText ctermbg=none guibg=none
-    autocmd ColorScheme,VimEnter * highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
-    autocmd ColorScheme,VimEnter * highlight! DiffAdd guifg=none guibg=#002000
-    autocmd ColorScheme,VimEnter * highlight! DiffChange guifg=none guibg=none
-    autocmd ColorScheme,VimEnter * highlight! DiffText guifg=none guibg=#000020
-    autocmd ColorScheme,VimEnter * highlight! DiffDelete guifg=none guibg=#200000
-    autocmd FileType javascript,javascript.jsx JsPreTmpl sass
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! Normal ctermbg=none guibg=none
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! NonText ctermbg=none guibg=none
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffAdd guifg=none guibg=#002000
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffChange guifg=none guibg=none
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffText guifg=none guibg=#000020
+    autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffDelete guifg=none guibg=#200000
+    autocmd FileType javascript,javascript.jsx JsPreTmpl scss
 augroup END
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:\ ,
@@ -175,8 +179,8 @@ augroup autosave
 augroup END
 
 "indent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set autoindent
 set smartindent
@@ -253,6 +257,7 @@ let g:ale_linters = {
             \ }
 let g:ale_fixers = {
             \ 'javascript': ['prettier', 'eslint'],
+            \ 'json': ['prettier'],
             \ 'python': 'yapf',
             \ }
 let g:ale_sign_error = '▶▶'
@@ -267,8 +272,10 @@ augroup END
 "lightline
 set noshowmode
 set laststatus=2
+let g:lightline#colorscheme#base16_inactive#palette = g:lightline#colorscheme#base16#palette
+let g:lightline#colorscheme#base16_inactive#palette.inactive.middle = [ [ '#585858', '#282828', 8, 18 ] ]
 let g:lightline = {
-            \ 'colorscheme': 'base16',
+            \ 'colorscheme': 'base16_inactive',
             \ 'subseparator': { 'left': '', 'right': '' },
             \ 'active': {
             \   'left': [
@@ -377,16 +384,23 @@ command! Rspec :call RunNearestSpec()<CR>
 command! RspecLast :call RunLastSpec()<CR>
 command! RspecFile :call RunCurrentSpecFile()<CR>
 
-"javascript-libraries
-let g:used_javascript_libs = 'underscore,jquery,react,angularjs'
-
 "python
 let g:polyglot_disabled = ['python']
 let g:python_highlight_all = 1
 
+"cucumber
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
-"macros
-command! HashTorpedo :%s/ ["':]\(\S*\)["']* => / \1: /g
 
 "neovim
 if exists(':tnoremap')
@@ -409,6 +423,7 @@ let test#python#pytest#options = {
             \ 'file': '-svv --pdb',
             \ 'suite': '-xsvv --pdb',
             \ }
+let test#ruby#cucumber#executable = "behave"
 
 set exrc
 set secure

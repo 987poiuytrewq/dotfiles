@@ -1,4 +1,6 @@
 [style]
+based_on_style = pep8
 dedent_closing_brackets = true
 coalesce_brackets = true
 indent_dictionary_value = true
+split_before_logical_operator = false
