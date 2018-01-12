@@ -34,7 +34,6 @@ Plug 'moll/vim-bbye'
 Plug 'ntpeters/vim-better-whitespace'
 
 "interface
-Plug 'w0rp/ale'
 if has_ycm
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 endif
@@ -42,17 +41,10 @@ Plug 'w0rp/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 
-"unite
-Plug 'Shougo/unite.vim'
+"denite
 Plug 'Shougo/denite.nvim'
-Plug 'Shougo/vimfiler.vim'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/neoyank.vim'
-Plug 'lambdalisue/unite-grep-vcs'
-Plug 'osyo-manga/unite-quickfix'
-Plug 'tsukkee/unite-tag'
-Plug '~/projects/personal/ungite.vim'
+
+"navigate
 Plug '~/projects/personal/direct.vim'
 
 "git
@@ -61,8 +53,6 @@ Plug 'airblade/vim-gitgutter'
 
 "textobj
 Plug 'kana/vim-textobj-user'
-Plug 'beloglazov/vim-textobj-quotes'
-Plug 'sgur/vim-textobj-parameter'
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby,eruby' }
 Plug 'bps/vim-textobj-python', {'for': 'python'}
 
@@ -146,11 +136,13 @@ let python_highlight_all = 1
 let g:vim_markdown_frontmatter = 1
 
 "close-tag
-let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.react.js,*.jinja2"
+let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.jinja,*.jsx,*.js,*.jinja2"
 
 "delimitMate
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
+let delimitMate_nesting_quotes =['"',"'"]
 
 "hl_matchit
 let g:hl_matchit_enable_on_vim_startup = 1
@@ -165,6 +157,7 @@ let g:hl_fold_mid_text = ''
 let g:hl_fold_end_text = ''
 let g:hl_fold_start_linehl = 'MatchParen'
 let g:hl_fold_end_linehl = 'MatchParen'
+
 
 set nobackup
 set nowritebackup
@@ -239,7 +232,7 @@ nnoremap <C-c> :cp<CR>
 inoremap <C-p> <C-r>"
 
 "git gutter
-set signcolumn=yes
+let signcolumn="yes"
 let g:gitgutter_sign_added              = '┃'
 let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
@@ -249,6 +242,9 @@ nmap <leader>cu <Plug>GitGutterUndoHunk
 nmap <leader>cs <Plug>GitGutterStageHunk
 nmap <leader>cr <Plug>GitGutterUndoHunk
 nmap <leader>cp <Plug>GitGutterPreviewHunk
+
+"easygit
+let g:easygit_enable_command = 1
 
 "ale
 " let g:ale_fix_on_save = 1
@@ -294,18 +290,28 @@ let g:lightline = {
             \  'right': [],
             \ },
             \ 'component_function': {
+            \   'mode': 'LightlineMode',
             \   'readonly': 'LightlineReadonly',
             \   'filename': 'LightlineFilename',
             \   'fugitive': 'LightlineFugitive',
             \ },
             \ }
+function! LightlineMode()
+    if &ft == 'denite'
+        let mode = substitute(denite#get_status_mode(), " *-- *", "", "g")
+        call lightline#link(tolower(mode[0]))
+        return mode
+    endif
+    return lightline#mode()
+endfunction
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
 function! LightlineFilename()
-    return &ft == 'unite' ? unite#get_status_string() :
-                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-                \ @%
+    if &ft == 'denite'
+        return denite#get_status_sources()
+    else
+    return @%
 endfunction
 function! LightlineFugitive()
     if exists('*fugitive#head')
@@ -319,60 +325,42 @@ endfunction
 highlight! link BufTabLineActive TabLineSel
 highlight! link BufTabLineCurrent PmenuSel
 
-"unite
-let g:unite_source_history_yank_enable = 1
-call unite#filters#matcher_default#use('matcher_fuzzy')
-call unite#filters#sorter_default#use('sorter_selecta')
-call unite#custom#source('file_mru', 'matchers', ['matcher_project_files', 'matcher_fuzzy'])
-call unite#custom#source('file', 'converters', ['converter_tail_abbr'])
-call unite#custom#source('file', 'matchers', ['matcher_default'])
-call unite#custom#source('file_rec,file_rec/git', 'converters', ['converter_relative_abbr'])
-nnoremap <leader># :<C-u>Unite -no-split -smartcase -buffer-name=directories -start-insert -hide-source-names file file/new directory/new<CR>
-nnoremap <leader>` :<C-u>Unite -no-split -smartcase -buffer-name=directories -start-insert -hide-source-names file file/new directory/new<CR>
-nnoremap <leader>d :<C-u>UniteWithBufferDir -no-split -smartcase -buffer-name=directories -start-insert -hide-source-names file file/new directory/new<CR>
-nnoremap <leader>f :<C-u>Unite -no-split -smartcase -buffer-name=files -start-insert file_rec/git:--cached:--others:--exclude-standard<CR>
-nnoremap <leader>r :<C-u>Unite -no-split -smartcase -buffer-name=recent -start-insert file_mru<CR>
-nnoremap <leader>o :<C-u>Unite -no-split -smartcase -start-insert -buffer-name=outline outline<CR>
-nnoremap <leader>y :<C-u>Unite -no-split -smartcase -buffer-name=yank history/yank<CR>
-nnoremap <leader>b :<C-u>Unite -no-split -smartcase -buffer-name=buffers buffer<CR>
-nnoremap <leader>cc :<C-u>Unite -no-split -smartcase -buffer-name=quickfix quickfix<CR>
-nnoremap <leader>cl :<C-u>Unite -no-split -smartcase -buffer-name=locations location_list<CR>
-nnoremap <leader>gg :<C-u>Unite -no-split -smartcase -buffer-name=grep grep/git<CR>
-nnoremap <leader>gp :<C-u>UniteResume grep<CR>
-nnoremap <leader>gs :<C-u>Unite -no-split -smartcase -buffer-name=git_status ungite/status<CR>
-nnoremap <leader>gb :<C-u>Unite -no-split -smartcase -buffer-name=git_branch ungite/branch<CR>
-
-"unite customisation
-function! s:unite_directory_keybindings()
-    imap <buffer> <C-h> <Plug>(unite_delete_backward_path)
-endfunction
-autocmd! FileType unite call s:unite_directory_keybindings()
-autocmd! FileType unite setlocal number
-
-"vimfiler
-nnoremap <leader>s :<C-u>VimFilerBufferDir<CR>
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_expand_jump_to_first_child = 0
-let g:vimfiler_tree_leaf_icon = ''
-let g:vimfiler_tree_opened_icon = '▼'
-let g:vimfiler_tree_closed_icon = '▶'
-let g:vimfiler_tree_readonly_icon = ''
-call vimfiler#custom#profile('default', 'context', {
-        \   'safe_mode' : 0
-        \ })
-autocmd! FileType vimfiler nmap <buffer> <2-LeftMouse> <Plug>(vimfiler_cd_or_edit)
-autocmd! FileType vimfiler nmap <buffer> <LeftMouse> <LeftMouse><Plug>(vimfiler_expand_or_edit)
+"denite
+nnoremap <leader>f :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel file_rec<CR>
+nnoremap <leader>b :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel buffer<CR>
+nnoremap <leader>t :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel tag<CR>
+nnoremap <leader>/ :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel -mode=normal grep<CR>
+nnoremap <leader># :<C-u>DeniteCursorWord -split=no -smartcase -mode=normal -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel grep<CR>
+call denite#custom#option('default', {
+            \ 'prompt': '',
+            \ 'short_source_names': v:true,
+            \ 'statusline': v:false
+            \ })
+call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>', 'noremap')
+call denite#custom#map('normal', '<Esc>', '<NOP>', 'noremap')
+call denite#custom#var('file_rec', 'command',
+      \ ['rg', '--files', '--glob', '!.git', ''])
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+      \ ['--hidden', '--vimgrep', '--no-heading', '-S'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
 
 if has_ycm
     "youcompleteme
     let g:ycm_collect_identifiers_from_tags_files = 1
     let g:ycm_seed_identifiers_with_syntax = 1
     let g:ycm_add_preview_to_completeopt = 0
+    let g:ycm_semantic_triggers = {
+                \ 'css': ['re!^\s{2}', 're!:\s+'],
+                \ 'scss': ['re!^\s{2}', 're!:\s+'],
+                \ }
     set completeopt-=preview
 endif
 
 "ruby complete
-setlocal omnifunc=syntaxcomplete#Complete
 let g:rubycomplete_rails = 1
 " let g:rubycomplete_buffer_loading = 1 "this causes massive slowdown
 let g:rubycomplete_classes_in_global = 1
@@ -416,7 +404,7 @@ if has('nvim')
     let g:neoterm_position = 'vertical'
     let test#strategy = 'neoterm'
 endif
-nnoremap <leader>t :TestNearest<CR>
+nnoremap <C-t> :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
             \ 'nearest': '-svv --pdb',
