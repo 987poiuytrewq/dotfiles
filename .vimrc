@@ -90,7 +90,8 @@ Plug 'xolox/vim-misc'
 call plug#end()
 
 "general
-set number
+set cursorline
+set signcolumn=yes
 set mouse=a
 set ttyfast
 set ttimeoutlen=0
@@ -183,6 +184,11 @@ autocmd! Filetype python setlocal textwidth=79
 autocmd! Filetype javascript setlocal textwidth=99
 set formatoptions=crqj
 
+augroup help
+    autocmd!
+    autocmd FileType help wincmd L
+augroup END
+
 "fold
 highlight! Folded ctermfg=none ctermbg=235
 set foldmethod=syntax
@@ -207,23 +213,29 @@ set breakat-=&
 set showbreak=└─
 
 "whitespace
+set list
 set listchars=tab:━━,nbsp:·
 
-"buffer navigation
 set hidden
-nnoremap <leader>l :bnext<CR>
-nnoremap <leader>h :bprev<CR>
-nnoremap <leader>k :call smooth_scroll#up(&scroll, 10, 5)<CR>
-nnoremap <leader>j :call smooth_scroll#down(&scroll, 10, 5)<CR>
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>w <C-w>w
 nnoremap <leader>n :nohlsearch<CR>
 
+"buffer navigation
+nnoremap <C-l> :bnext<CR>
+nnoremap <C-h> :bprev<CR>
+let scroll = 10
+nnoremap <C-j> :call smooth_scroll#down(10, 5, 1)<CR>
+nnoremap <C-k> :call smooth_scroll#up(10, 5, 1)<CR>
+nnoremap <ScrollWheelDown> :call smooth_scroll#down(10, 5, 1)<CR>
+nnoremap <ScrollWheelUp> :call smooth_scroll#up(10, 5, 1)<CR>
+
 "window navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <leader>l <C-w>l
+nnoremap <leader>h <C-w>h
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+
 set splitright
 set splitbelow
 "close preview window
@@ -256,14 +268,16 @@ let g:ale_fixers = {
             \ 'json': ['prettier'],
             \ 'python': 'yapf',
             \ }
-let g:ale_sign_error = '▶▶'
-let g:ale_sign_warning = '▶▶'
+let g:ale_sign_error = '▶'
+let g:ale_sign_warning = '▶'
 highlight! link ALEErrorSign GitGutterDelete
 highlight! link ALEWarningSign GitGutterChange
 augroup format
     autocmd!
     autocmd BufLeave,BufUnload,BufHidden,WinLeave,FocusLost * silent! ALEFix
 augroup END
+nnoremap ]e :ALENext<CR>
+nnoremap [e :ALEPrevious<CR>
 
 "lightline
 set noshowmode
@@ -326,20 +340,29 @@ highlight! link BufTabLineActive TabLineSel
 highlight! link BufTabLineCurrent PmenuSel
 
 "denite
-nnoremap <leader>f :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel file_rec<CR>
-nnoremap <leader>b :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel buffer<CR>
-nnoremap <leader>t :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel tag<CR>
-nnoremap <leader>/ :<C-u>Denite -split=no -smartcase -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel -mode=normal grep<CR>
-nnoremap <leader># :<C-u>DeniteCursorWord -split=no -smartcase -mode=normal -highlight-matched-range=Normal -highlight-matched-char=MatchParen -highlight-mode-normal=PmenuSel grep<CR>
+nnoremap <leader>f :<C-u>Denite file_rec<CR>
+nnoremap <leader>b :<C-u>Denite buffer<CR>
+nnoremap <leader>t :<C-u>Denite tag<CR>
+nnoremap <leader>o :<C-u>Denite outline<CR>
+nnoremap <leader>/ :<C-u>Denite -mode=normal grep<CR>
+nnoremap <leader># :<C-u>DeniteCursorWord -mode=normal grep<CR>
+nnoremap <leader>g :<C-u>Denite -mode=normal -resume grep<CR>
 call denite#custom#option('default', {
-            \ 'prompt': '',
-            \ 'short_source_names': v:true,
-            \ 'statusline': v:false
-            \ })
+      \ 'highlight_matched_range': 'Normal',
+      \ 'highlight_matched_char': 'Title',
+      \ 'highlight_mode_normal': 'PmenuSel',
+      \ 'highlight_mode_insert': 'Normal',
+      \ 'split': 'no',
+      \ 'smartcase': v:true,
+      \ 'sorters': 'sorter_sublime',
+      \ 'prompt': '',
+      \ 'short_source_names': v:true,
+      \ 'statusline': v:false
+      \ })
 call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>', 'noremap')
 call denite#custom#map('normal', '<Esc>', '<NOP>', 'noremap')
 call denite#custom#var('file_rec', 'command',
-      \ ['rg', '--files', '--glob', '!.git', ''])
+      \ ['rg', '--files', '--glob', '!.git', '--hidden'])
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts',
       \ ['--hidden', '--vimgrep', '--no-heading', '-S'])
@@ -407,9 +430,9 @@ endif
 nnoremap <C-t> :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
-            \ 'nearest': '-svv --pdb',
-            \ 'file': '-svv --pdb',
-            \ 'suite': '-xsvv --pdb',
+            \ 'nearest': '-v --pdb',
+            \ 'file': '-v --pdb',
+            \ 'suite': '-v --pdb',
             \ }
 let test#ruby#cucumber#executable = "behave"
 

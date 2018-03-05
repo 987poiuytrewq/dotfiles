@@ -1,10 +1,10 @@
 [user]
-  name = Duncan Williams
-  email = duncan.williams@supercarers.com
+	name = Duncan Williams
+	email = duncan.williams@supercarers.com
 [push]
   default = current
 [merge]
-  tool = fugitive
+	tool = fugitive
 [alias]
   u = add -u
   c = commit
@@ -19,3 +19,8 @@
 	helper = osxkeychain
 [commit]
 	verbose = true
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

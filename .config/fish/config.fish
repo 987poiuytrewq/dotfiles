@@ -1,6 +1,6 @@
 set -gx EDITOR nvim
 
-eval (python -m virtualfish)
+eval (python -m virtualfish auto_activation)
 
 function rename
     for SOURCE in $argv[2..-1]
