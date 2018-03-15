@@ -95,8 +95,8 @@ set signcolumn=yes
 set mouse=a
 set ttyfast
 set ttimeoutlen=0
-let g:python_host_prog='/usr/bin/python'
-let g:python3_host_prog='/usr/local/bin/python3'
+let g:python_host_prog='/usr/local/opt/python@2/bin/python2'
+let g:python3_host_prog='/usr/local/bin/python'
 
 "clipboard
 set clipboard=unnamed,unnamedplus

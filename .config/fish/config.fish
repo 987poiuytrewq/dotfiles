@@ -65,3 +65,4 @@ function scp-prod-curl -w curl
         -H "Authorization: JWT $PROD_TOKEN" \
         $argv | jq .
 end
+set -g fish_user_paths "/usr/local/opt/python@2/bin" $fish_user_paths
