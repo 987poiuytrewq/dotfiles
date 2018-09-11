@@ -1,6 +1,7 @@
 let has_ycm = v:version >= 703 || (v:version == 703 && has('patch598'))
 let has_breakindent = v:version > 704 || (v:version == 704 && has('patch338'))
 let has_textchanged = v:version > 704 || (v:version == 704 && has('patch126'))
+let g:os = substitute(system('uname'), '\n', '', '')
 
 call plug#begin('~/.vim/plugged')
 
@@ -34,9 +35,9 @@ Plug 'moll/vim-bbye'
 Plug 'ntpeters/vim-better-whitespace'
 
 "interface
-" if has_ycm
-"     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
-" endif
+if has_ycm
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+endif
 Plug 'w0rp/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
@@ -95,8 +96,14 @@ set signcolumn=yes
 set mouse=a
 set ttyfast
 set ttimeoutlen=0
-let g:python_host_prog='/usr/local/opt/python@2/bin/python2'
-let g:python3_host_prog='/usr/local/bin/python3'
+if g:os == 'Linux'
+  let g:python_host_prog='/usr/bin/python'
+  let g:python3_host_prog='/usr/bin/python3'
+endif
+if g:os == 'Darwin'
+  let g:python_host_prog='/usr/local/opt/python@2/bin/python2'
+  let g:python3_host_prog='/usr/local/bin/python'
+endif
 
 "clipboard
 set clipboard=unnamed,unnamedplus
