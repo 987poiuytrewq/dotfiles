@@ -3,18 +3,27 @@
 	email = duncan.williams@supercarers.com
 [push]
   default = current
-[merge]
-	tool = fugitive
 [alias]
   u = add -u
   c = commit
   graph = log --graph --all --pretty=format:'%C(dim normal)%h%C(reset) %C(blue)%an%Creset %s %C(yellow)%cr %C(auto)%d%Creset' --abbrev-commit
+  upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
 [pull]
   default = simple
 [core]
 	excludesfile = ~/.gitignore_global
+[merge]
+	tool = fugitive
+[mergetool "meld"]
+  cmd = meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\" --output \"$MERGED\"
 [mergetool "fugitive"]
-	cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
+  cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
+[diff]
+    tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
 [credential]
 	helper = osxkeychain
 [commit]
@@ -24,3 +33,5 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[init]
+	templatedir = ~/.git-templates

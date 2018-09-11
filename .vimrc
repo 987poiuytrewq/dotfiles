@@ -34,9 +34,9 @@ Plug 'moll/vim-bbye'
 Plug 'ntpeters/vim-better-whitespace'
 
 "interface
-if has_ycm
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
-endif
+" if has_ycm
+"     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+" endif
 Plug 'w0rp/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
@@ -96,7 +96,7 @@ set mouse=a
 set ttyfast
 set ttimeoutlen=0
 let g:python_host_prog='/usr/local/opt/python@2/bin/python2'
-let g:python3_host_prog='/usr/local/bin/python'
+let g:python3_host_prog='/usr/local/bin/python3'
 
 "clipboard
 set clipboard=unnamed,unnamedplus
@@ -122,8 +122,8 @@ set background=dark
 source ~/.vim/base16-circus.vim
 augroup colors
     autocmd!
-    autocmd ColorScheme,VimEnter,SourcePre * highlight! Normal ctermbg=none guibg=none
-    autocmd ColorScheme,VimEnter,SourcePre * highlight! NonText ctermbg=none guibg=none
+    " autocmd ColorScheme,VimEnter,SourcePre * highlight! Normal ctermbg=none guibg=none
+    " autocmd ColorScheme,VimEnter,SourcePre * highlight! NonText ctermbg=none guibg=none
     autocmd ColorScheme,VimEnter,SourcePre * highlight! EndOfBuffer cterm=none ctermfg=234 ctermbg=234 gui=none guifg=#101010 guibg=#101010
     autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffAdd guifg=none guibg=#002000
     autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffChange guifg=none guibg=none
@@ -250,24 +250,27 @@ let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
 let g:gitgutter_sign_removed_first_line = '┃'
 let g:gitgutter_sign_modified_removed   = '┃'
-nmap <leader>cu <Plug>GitGutterUndoHunk
-nmap <leader>cs <Plug>GitGutterStageHunk
-nmap <leader>cr <Plug>GitGutterUndoHunk
-nmap <leader>cp <Plug>GitGutterPreviewHunk
+nnoremap <leader>cu <Plug>GitGutterRevertHunk
+nnoremap <leader>cs <Plug>GitGutterStageHunk
+nnoremap <leader>cr <Plug>GitGutterRevertHunk
+nnoremap <leader>cp <Plug>GitGutterPreviewHunk
 
 "easygit
 let g:easygit_enable_command = 1
 
 "ale
-" let g:ale_fix_on_save = 1
 let g:ale_linters = {
             \ 'javascript': ['eslint'],
+            \ 'python': ['flake8'],
             \ }
 let g:ale_fixers = {
             \ 'javascript': ['prettier', 'eslint'],
-            \ 'json': ['prettier'],
+            \ 'json': 'prettier',
             \ 'python': 'yapf',
             \ }
+let g:ale_lint_on_enter = 'always'
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_lint_on_save = 0
 let g:ale_sign_error = '▶'
 let g:ale_sign_warning = '▶'
 highlight! link ALEErrorSign GitGutterDelete
@@ -278,6 +281,7 @@ augroup format
 augroup END
 nnoremap ]e :ALENext<CR>
 nnoremap [e :ALEPrevious<CR>
+nnoremap <leader>= :ALEFix<CR>
 
 "lightline
 set noshowmode
@@ -423,15 +427,15 @@ if exists(':tnoremap')
 endif
 
 if has('nvim')
-    let g:terminal_scrollback_buffer_size = 100000
-    let g:neoterm_position = 'vertical'
+    set scrollback=100000
     let test#strategy = 'neoterm'
+    let g:neoterm_default_mod = 'vertical'
 endif
 nnoremap <C-t> :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
-            \ 'nearest': '-v --pdb',
-            \ 'file': '-v --pdb',
+            \ 'nearest': '-sv --pdb',
+            \ 'file': '-v -n auto',
             \ 'suite': '-v --pdb',
             \ }
 let test#ruby#cucumber#executable = "behave"

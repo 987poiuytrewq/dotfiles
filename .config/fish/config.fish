@@ -24,16 +24,16 @@ end
 
 function scp-dev-curl -w curl
     if [ -z $DEV_TOKEN ]
-        # set DEV_USER 'developers+alice_admin@supercarers.com'
-        # set DEV_PASS alice
-        set DEV_USER duncan.williams@supercarers.com
-        get -s -p 'password:' | read DEV_PASS
+        set DEV_USER 'developers+alice_admin@supercarers.com'
+        set DEV_PASS alice
+        # set DEV_USER duncan.williams@supercarers.com
+        # get -s -p 'password:' | read DEV_PASS
         curl -sL \
             -H "Accept: application/json" \
             -H "Content-Type: application/json" \
             -d "{\"username\": \"$DEV_USER\", \"password\": \"$DEV_PASS\"}" \
             -X POST \
-            api.scp/v1/auth/ | read -z DEV_AUTH
+            localhost:9000/v1/auth/ | read -z DEV_AUTH
         echo $DEV_AUTH | jq .
         echo $DEV_AUTH | jq -r '.data.access_token' | read -gx DEV_TOKEN
     end
