@@ -104,6 +104,8 @@ if g:os == 'Darwin'
   let g:python_host_prog='/usr/local/opt/python@2/bin/python2'
   let g:python3_host_prog='/usr/local/bin/python'
 endif
+set undofile
+set undodir=~/.vim/undodir
 
 "clipboard
 set clipboard=unnamed,unnamedplus
@@ -280,8 +282,10 @@ let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_on_save = 0
 let g:ale_sign_error = '▶'
 let g:ale_sign_warning = '▶'
-highlight! link ALEErrorSign GitGutterDelete
-highlight! link ALEWarningSign GitGutterChange
+highlight! ALEErrorSign ctermfg=1 ctermbg=10 guifg=#ff2222 guibg=#202020
+highlight! ALEError ctermbg=1 ctermfg=10 guibg=#ff2222 guifg=#202020
+highlight! ALEWarningSign ctermfg=3 ctermbg=10 guifg=#bbbb00 guibg=#202020
+highlight! ALEWarning ctermbg=3 ctermfg=10 guibg=#bbbb00 guifg=#202020
 augroup format
     autocmd!
     autocmd BufLeave,BufUnload,BufHidden,WinLeave,FocusLost * silent! ALEFix
