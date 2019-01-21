@@ -60,9 +60,7 @@ Plug 'bps/vim-textobj-python', {'for': 'python'}
 "ruby
 Plug 'tpope/vim-rails', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
-
-"python
-Plug 'rooprob/vim-behave', { 'for': 'cucumber' }
+Plug 'tpope/vim-cucumber', { 'for': 'ruby,eruby,python,cucumber' }
 
 "file types
 Plug 'Quramy/vim-js-pretty-template'
@@ -102,7 +100,7 @@ if g:os == 'Linux'
 endif
 if g:os == 'Darwin'
   let g:python_host_prog='/usr/local/opt/python@2/bin/python2'
-  let g:python3_host_prog='/usr/local/bin/python'
+  let g:python3_host_prog='/usr/local/bin/python3'
 endif
 set undofile
 set undodir=~/.vim/undodir
@@ -445,9 +443,9 @@ endif
 nnoremap <C-t> :TestNearest<CR>
 command! Test :TestNearest()<CR>
 let test#python#pytest#options = {
-            \ 'nearest': '-sv --pdb',
-            \ 'file': '-v -n auto',
-            \ 'suite': '-v --pdb',
+            \ 'nearest': '-svv --pdb',
+            \ 'file': '-vv',
+            \ 'suite': '-vv -n auto --pdb',
             \ }
 let test#ruby#cucumber#executable = "behave"
 

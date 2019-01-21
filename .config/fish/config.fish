@@ -16,11 +16,8 @@ function .git -w git
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $argv
 end
 
-function box -w vagrant
-    pushd ~/projects/scp/devops/devbox/
-    ./box $argv
-    popd
-end
+
+set -g fish_user_paths "/usr/local/opt/python@2/bin" $fish_user_paths
 
 function scp-dev-curl -w curl
     if [ -z $DEV_TOKEN ]
@@ -65,4 +62,3 @@ function scp-prod-curl -w curl
         -H "Authorization: JWT $PROD_TOKEN" \
         $argv | jq .
 end
-set -g fish_user_paths "/usr/local/opt/python@2/bin" $fish_user_paths
