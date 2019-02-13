@@ -15,6 +15,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'christoomey/vim-titlecase'
 Plug 'godlygeek/tabular'
+Plug 'octref/RootIgnore'
 
 
 "motion
