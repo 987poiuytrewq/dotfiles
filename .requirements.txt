@@ -1,0 +1,9 @@
+cffi
+flake8
+ipdb
+ipython
+isort
+neovim
+virtualenv
+virtualfish
+yapf
