@@ -137,7 +137,7 @@ augroup colors
     autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffChange guifg=none guibg=none
     autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffText guifg=none guibg=#000020
     autocmd ColorScheme,VimEnter,SourcePre * highlight! DiffDelete guifg=none guibg=#200000
-    autocmd FileType javascript,javascript.jsx JsPreTmpl scss
+    " autocmd FileType javascript,javascript.jsx :JsPreTmpl scss<CR>
 augroup END
 set hlsearch
 set fillchars=vert:\ ,fold:\ ,diff:\ ,
@@ -274,7 +274,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
             \ 'javascript': ['prettier', 'eslint'],
             \ 'json': 'prettier',
-            \ 'python': 'yapf',
+            \ 'python': ['yapf', 'isort']
             \ }
 let g:ale_lint_on_enter = 'always'
 let g:ale_lint_on_text_changed = 'always'

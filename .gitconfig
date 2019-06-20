@@ -11,7 +11,7 @@
 [pull]
   default = simple
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/duncan/.gitignore_global
 [merge]
 	tool = fugitive
 [mergetool "meld"]
@@ -35,3 +35,9 @@
 	smudge = git-lfs smudge -- %f
 [init]
 	templatedir = ~/.git-templates
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

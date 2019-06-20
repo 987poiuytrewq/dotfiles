@@ -69,7 +69,7 @@ if has("nvim")
   let g:terminal_color_5 =  "#b888e2"
   let g:terminal_color_6 =  "#4bb1a7"
   let g:terminal_color_7 =  "#a7a7a7"
-  let g:terminal_color_8 =  "#191919"
+  let g:terminal_color_8 =  "#5f5a60"
   let g:terminal_color_9 =  "#dc657d"
   let g:terminal_color_10 =  "#84b97c"
   let g:terminal_color_11 =  "#c3ba63"
