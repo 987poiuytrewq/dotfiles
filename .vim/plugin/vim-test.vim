@@ -6,3 +6,7 @@ let test#python#pytest#options = {
             \ 'suite': '-vv -n auto --pdb',
             \ }
 let test#ruby#cucumber#executable = "behave"
+
+if has('nvim')
+  let test#strategy = 'neoterm'
+end

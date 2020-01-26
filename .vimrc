@@ -1,4 +1,3 @@
-let has_textchanged = v:version > 704 || (v:version == 704 && has('patch126'))
 
 call plug#begin('~/.vim/plugged')
 
@@ -27,7 +26,6 @@ Plug 'kh3phr3n/python-syntax'
 Plug 'lepture/vim-jinja'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'mitsuhiko/vim-rst'
 Plug 'moll/vim-bbye'
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby,eruby' }
 Plug 'ntpeters/vim-better-whitespace'
@@ -58,73 +56,57 @@ Plug '~/projects/personal/direct.vim'
 
 call plug#end()
 
-"general
+" allow hidden buffers
+set hidden
+
+" disable swap files
+set nobackup
+set noswapfile
+set nowritebackup
+
+" allow local config
+set exrc
+set secure
+
+" speed
+set ttyfast
+set ttimeoutlen=0
+
+" display
 set cursorline
 set signcolumn=yes
 set mouse=a
-set ttyfast
-set ttimeoutlen=0
-set undofile
-set undodir=~/.vim/undodir
 
-"clipboard
-set clipboard=unnamed,unnamedplus
-
-set selection=exclusive
-
-
-set nobackup
-set nowritebackup
-set noswapfile
-augroup autosave
-    autocmd!
-    autocmd InsertLeave * nested update
-
-    if has_textchanged
-        autocmd TextChanged * nested update
-    endif
-augroup END
-
-"indent
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set autoindent
-set smartindent
-set copyindent
-set wrap
-set formatoptions=crqj
-
-augroup help
-    autocmd!
-    autocmd FileType help wincmd L
-augroup END
-
-
-"whitespace
+" show whitespace
 set list
 set listchars=tab:━━,nbsp:·
 
-set hidden
+" indent
+set copyindent
+set expandtab
+set shiftwidth=2
+set smartindent
+set tabstop=2
 
-"buffer navigation
-let scroll = 10
+" wrap
+set wrap
+set formatoptions=crqj
 
+" undo
+set undofile
+set undodir=~/.vim/undodir
+
+" use system clipboard
+set clipboard=unnamed,unnamedplus
+
+" selection
+set selection=exclusive
+
+" split directions
 set splitright
 set splitbelow
 
-"git gutter
-let signcolumn="yes"
-
-set noshowmode
-set laststatus=2
-
-
+" terminal scrollback
 if has('nvim')
     set scrollback=100000
-    let test#strategy = 'neoterm'
-    let g:neoterm_default_mod = 'vertical'
 endif
-
-set exrc
-set secure

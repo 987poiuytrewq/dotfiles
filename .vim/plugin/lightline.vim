@@ -1,3 +1,5 @@
+set noshowmode
+
 let g:lightline#colorscheme#base16_inactive#palette = g:lightline#colorscheme#base16#palette
 let g:lightline#colorscheme#base16_inactive#palette.inactive.middle = [ [ '#585858', '#282828', 8, 18 ] ]
 
