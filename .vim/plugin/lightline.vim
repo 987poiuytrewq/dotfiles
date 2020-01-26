@@ -4,11 +4,6 @@ let g:lightline#colorscheme#base16_inactive#palette = g:lightline#colorscheme#ba
 let g:lightline#colorscheme#base16_inactive#palette.inactive.middle = [ [ '#585858', '#282828', 8, 18 ] ]
 
 function! LightlineMode()
-    if &ft == 'denite'
-        let mode = substitute(denite#get_status_mode(), " *-- *", "", "g")
-        call lightline#link(tolower(mode[0]))
-        return mode
-    endif
     return lightline#mode()
 endfunction
 
@@ -17,9 +12,6 @@ function! LightlineReadonly()
 endfunction
 
 function! LightlineFilename()
-    if &ft == 'denite'
-        return denite#get_status_sources()
-    else
     return @%
 endfunction
 
