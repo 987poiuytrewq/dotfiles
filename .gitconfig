@@ -17,7 +17,7 @@
 [mergetool "meld"]
   cmd = meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\" --output \"$MERGED\"
 [mergetool "fugitive"]
-  cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
+  cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 [diff]
     tool = meld
 [difftool]
