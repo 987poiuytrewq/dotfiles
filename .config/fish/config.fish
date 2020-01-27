@@ -1,6 +1,8 @@
 set -gx EDITOR nvim
-
-eval (python -m virtualfish auto_activation)
+set -gx NPM_TOKEN 7f36e649-d53b-4fa1-880e-8a63f091908a
+set -gx GPG_TTY (tty)
+direnv hook fish | source
+# eval (python -m virtualfish auto_activation)
 
 function rename
     for SOURCE in $argv[2..-1]
