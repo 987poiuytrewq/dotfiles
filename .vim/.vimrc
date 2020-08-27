@@ -1,5 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'OrangeT/vim-csharp'
 Plug 'Quramy/vim-js-pretty-template'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/denite.nvim'

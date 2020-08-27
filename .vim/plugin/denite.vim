@@ -11,27 +11,15 @@ call denite#custom#option('default', {
       \ 'highlight_mode_normal': 'PmenuSel',
       \ 'highlight_mode_insert': 'Normal',
       \ 'filter_split_direction': 'below',
+      \ 'matcher': 'matcher/fuzzy',
       \ 'prompt': '',
       \ 'short_source_names': v:true,
       \ 'smartcase': v:true,
-      \ 'sorters': 'sorter_sublime',
+      \ 'sorters': 'sorter/sublime',
       \ 'split': 'no',
       \ 'statusline': v:false
       \ })
 
-autocmd FileType denite call s:denite_mappings()
-autocmd FileType denite-filter call s:denite_filter_mappings()
-
-function! s:denite_mappings()
-  nnoremap <buffer><expr> <CR> denite#do_map('do_action')
-  nnoremap <buffer><expr> d denite#do_map('do_action', 'delete')
-  nnoremap <buffer><expr> q denite#do_map('quit')
-  nnoremap <buffer><expr> i denite#do_map('open_filter_buffer')
-endfunction
-
-function! s:denite_filter_mappings()
-  imap <buffer> <Esc> <Plug>(denite_filter_update)
-endfunction
 
 call denite#custom#var('file/rec', 'command',
       \ ['rg', '--files', '--glob', '!.git', '--hidden'])

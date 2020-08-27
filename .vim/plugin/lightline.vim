@@ -3,10 +3,6 @@ set noshowmode
 let g:lightline#colorscheme#base16_inactive#palette = g:lightline#colorscheme#base16#palette
 let g:lightline#colorscheme#base16_inactive#palette.inactive.middle = [ [ '#585858', '#282828', 8, 18 ] ]
 
-function! LightlineMode()
-    return lightline#mode()
-endfunction
-
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
@@ -15,12 +11,9 @@ function! LightlineFilename()
     return @%
 endfunction
 
-function! LightlineFugitive()
-    if exists('*fugitive#head')
-        let branch = fugitive#head()
-        return branch !=# '' ? ' '.branch : ''
-    endif
-    return 'not git'
+function! LightlineGitBranch()
+  let branch = fugitive#head()
+  return branch !=# '' ? ' '.branch : ''
 endfunction
 
 let g:lightline = {
@@ -29,7 +22,7 @@ let g:lightline = {
             \ 'active': {
             \   'left': [
             \     [ 'mode', 'paste' ],
-            \     [ 'fugitive'],
+            \     [ 'gitbranch'],
             \     [ 'readonly', 'filename' ],
             \   ],
             \  'right': [],
@@ -43,9 +36,8 @@ let g:lightline = {
             \  'right': [],
             \ },
             \ 'component_function': {
-            \   'mode': 'LightlineMode',
             \   'readonly': 'LightlineReadonly',
             \   'filename': 'LightlineFilename',
-            \   'fugitive': 'LightlineFugitive',
+            \   'gitbranch': 'LightlineGitBranch',
             \ },
             \ }
