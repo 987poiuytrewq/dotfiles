@@ -1,6 +1,7 @@
 [user]
+  sx
 	name = Duncan Williams
-	email = duncan.williams@supercarers.com
+	email = dw@ra.co
 [push]
   default = current
 [alias]
@@ -24,8 +25,8 @@
     prompt = false
 [difftool "meld"]
     cmd = meld "$LOCAL" "$REMOTE"
-[credential]
-	helper = osxkeychain
+# [credential]
+# 	helper = osxkeychain
 [commit]
 	verbose = true
 [filter "lfs"]

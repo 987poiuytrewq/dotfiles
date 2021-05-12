@@ -34,6 +34,7 @@ Plug 'octref/RootIgnore'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'raimon49/requirements.txt.vim'
 Plug 'saltstack/salt-vim'
+let g:polyglot_disabled = ['python']
 Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }

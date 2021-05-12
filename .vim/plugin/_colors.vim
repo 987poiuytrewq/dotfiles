@@ -1,4 +1,4 @@
-colorscheme base16-circus
+colorscheme base16-vivid
 
 set t_Co=256
 set background=dark
