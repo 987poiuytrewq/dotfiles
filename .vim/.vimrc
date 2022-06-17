@@ -4,9 +4,6 @@ Plug 'OmniSharp/omnisharp-vim'
 Plug 'OrangeT/vim-csharp'
 Plug 'Quramy/vim-js-pretty-template'
 Plug 'Raimondi/delimitMate'
-Plug 'Shougo/denite.nvim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'ap/vim-buftabline'
@@ -21,6 +18,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'itchyny/lightline.vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'janko-m/vim-test'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'kana/vim-textobj-user'
 Plug 'kassio/neoterm'
 Plug 'kh3phr3n/python-syntax'
@@ -29,12 +27,17 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'moll/vim-bbye'
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby,eruby' }
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'octref/RootIgnore'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'raimon49/requirements.txt.vim'
 Plug 'saltstack/salt-vim'
-let g:polyglot_disabled = ['python']
 Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby,eruby' }
@@ -44,10 +47,6 @@ Plug 'tpope/vim-cucumber', { 'for': 'ruby,eruby,python,cucumber' }
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails', { 'for': 'ruby,eruby' }
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/loremipsum'
 Plug 'vimtaku/hl_matchit.vim'
@@ -55,6 +54,7 @@ Plug 'w0rp/ale'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
 Plug '~/projects/personal/direct.vim'
+let g:polyglot_disabled = ['python']
 
 call plug#end()
 
