@@ -18,9 +18,6 @@ function .git -w git
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $argv
 end
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[ -f /Users/duncan/projects/scratch/MoonMail/webhooks-microservice/node_modules/tabtab/.completions/serverless.fish ]; and . /Users/duncan/projects/scratch/MoonMail/webhooks-microservice/node_modules/tabtab/.completions/serverless.fish
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[ -f /Users/duncan/projects/scratch/MoonMail/webhooks-microservice/node_modules/tabtab/.completions/sls.fish ]; and . /Users/duncan/projects/scratch/MoonMail/webhooks-microservice/node_modules/tabtab/.completions/sls.fish
+function op-ra
+    set -gx OP_SESSION_ra_dev (op signin --raw ra_dev)
+end

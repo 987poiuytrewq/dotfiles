@@ -8,8 +8,8 @@ let test#python#pytest#options = {
 
 let test#ruby#cucumber#executable = "behave"
 
-let test#csharp#xunit#executable = "dotnet test"
-let test#csharp#dotnettest#executable = "dotnet test"
+let test#csharp#xunit#executable = "dotnet test --"
+let test#csharp#dotnettest#executable = "dotnet test --"
 
 if has('nvim')
   let test#strategy = 'neoterm'
