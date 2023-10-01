@@ -18,6 +18,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kassio/neoterm'
 Plug 'kh3phr3n/python-syntax'
