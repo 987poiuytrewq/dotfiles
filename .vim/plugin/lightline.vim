@@ -12,7 +12,7 @@ function! LightlineFilename()
 endfunction
 
 function! LightlineGitBranch()
-  let branch = fugitive#head()
+  let branch = FugitiveHead()
   return branch !=# '' ? ' '.branch : ''
 endfunction
 

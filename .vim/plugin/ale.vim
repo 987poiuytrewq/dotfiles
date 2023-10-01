@@ -9,6 +9,7 @@ let g:ale_linters = {
             \ 'javascriptreact': ['eslint'],
             \ 'typescript': ['eslint'],
             \ 'typescriptreact': ['eslint'],
+            \ 'javascriptreact': ['eslint'],
             \ 'python': ['flake8'],
             \ }
 let g:ale_fixers = {
@@ -16,6 +17,7 @@ let g:ale_fixers = {
             \ 'javascriptreact': ['prettier', 'eslint'],
             \ 'typescript': ['prettier', 'eslint'],
             \ 'typescriptreact': ['prettier', 'eslint'],
+            \ 'javascriptreact': ['prettier', 'eslint'],
             \ 'json': 'prettier',
             \ 'python': ['yapf', 'isort']
             \ }
