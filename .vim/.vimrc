@@ -46,6 +46,7 @@ Plug 'tpope/vim-cucumber', { 'for': 'ruby,eruby,python,cucumber' }
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise', { 'for': 'ruby,eruby' }
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/loremipsum'
 Plug 'vimtaku/hl_matchit.vim'
