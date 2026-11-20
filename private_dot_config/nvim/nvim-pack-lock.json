@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "direct.vim": {
+      "rev": "61cbc717b7b025975e838b098f7053c352f3b8d9",
+      "src": "https://github.com/987poiuytrewq/direct.vim"
+    }
+  }
+}
