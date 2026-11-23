@@ -1,0 +1,21 @@
+local map = vim.keymap.set
+
+map("n", "<leader>n", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
+map("n", "<leader>q", "<cmd>bdelete<CR>", { desc = "Close buffer" })
+map("n", "<C-l>", "<cmd>bnext<CR>", { desc = "Next buffer" })
+map("n", "<C-h>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
+map("n", "<leader>w", "<C-w>w", { desc = "Next window" })
+map("n", "<leader>l", "<C-w>l", { desc = "Focus right window" })
+map("n", "<leader>h", "<C-w>h", { desc = "Focus left window" })
+map("n", "<leader>j", "<C-w>j", { desc = "Focus lower window" })
+map("n", "<leader>k", "<C-w>k", { desc = "Focus upper window" })
+map("n", "<C-c>", "<cmd>cp<CR>", { desc = "Previous quickfix item" })
+map("i", "<C-p>", '<C-r>"', { desc = "Paste unnamed register" })
+map({ "n", "x", "o" }, "H", "^", { desc = "First nonblank character" })
+map({ "n", "x", "o" }, "L", "$", { desc = "End of line" })
+
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Focus left window" })
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Focus lower window" })
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Focus upper window" })
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Focus right window" })

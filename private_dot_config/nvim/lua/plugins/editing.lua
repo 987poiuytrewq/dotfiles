@@ -1,0 +1,5 @@
+require("mini.surround").setup()
+require("mini.ai").setup()
+require("mini.pairs").setup()
+require("mini.align").setup()
+require("neoscroll").setup({ easing = "quadratic" })
