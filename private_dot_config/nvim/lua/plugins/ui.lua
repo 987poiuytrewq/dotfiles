@@ -1,7 +1,27 @@
 local map = vim.keymap.set
 
-require("gitsigns").setup()
-require("nvim-web-devicons").setup({ default = true })
+require("gitsigns").setup({
+  signs = {
+    add = { text = "┃" },
+    change = { text = "┃" },
+    delete = { text = "▁" },
+    topdelete = { text = "▔" },
+    changedelete = { text = "┃" },
+    untracked = { text = "┃" },
+  },
+  signs_staged = {
+    add = { text = "┃" },
+    change = { text = "┃" },
+    delete = { text = "▁" },
+    topdelete = { text = "▔" },
+    changedelete = { text = "┃" },
+  },
+})
+require("nvim-web-devicons").setup({
+  default = true,
+  color_icons = false,
+})
+vim.api.nvim_set_hl(0, "DevIconDefault", { link = "Normal" })
 
 require("bufferline").setup({
   options = {
@@ -9,7 +29,7 @@ require("bufferline").setup({
       require("bufferline").style_preset.minimal,
       require("bufferline").style_preset.no_italic,
     },
-    diagnostics = "nvim_lsp",
+    diagnostics = false,
     always_show_bufferline = true,
     color_icons = false,
     show_buffer_close_icons = true,
@@ -42,7 +62,7 @@ require("lualine").setup({
         },
       },
     },
-    lualine_x = { "branch", "diff", "diagnostics" },
+    lualine_x = { "branch", "diff" },
     lualine_y = {},
     lualine_z = {},
   },

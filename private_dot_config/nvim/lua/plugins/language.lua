@@ -48,6 +48,8 @@ require("mason-tool-installer").setup({
     "html",
     "cssls",
     "jsonls",
+    "stylua",
+    "luacheck",
     "prettier",
     "eslint_d",
     "yapf",
@@ -59,9 +61,19 @@ require("mason-tool-installer").setup({
 })
 
 vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "󰌵",
+    },
+  },
+  underline = false,
   severity_sort = true,
   update_in_insert = false,
-  virtual_text = { spacing = 2, prefix = "●" },
+  virtual_text = false,
+  virtual_lines = false,
 })
 
 local group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true })
